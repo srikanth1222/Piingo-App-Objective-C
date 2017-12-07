@@ -1,0 +1,51 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - CardIO (5.2.2)
+  - Crashlytics (3.8.3):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.7)
+  - GoogleMaps (1.10.5)
+  - iOS-Color-Picker (1.1.4)
+  - MFSideMenu (0.5.5)
+  - Reachability (3.2)
+  - RESideMenu (4.0.7)
+
+DEPENDENCIES:
+  - AFNetworking (~> 3.0)
+  - CardIO (~> 5.0)
+  - Crashlytics
+  - Fabric
+  - GoogleMaps (~> 1.10.1)
+  - iOS-Color-Picker
+  - MFSideMenu
+  - Reachability
+  - RESideMenu
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  CardIO: 2460db0f4936f3441b08d51e3904b436d77ec8fc
+  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  GoogleMaps: da51c62c338c2d9c47cdad470a0d1e0e4b8544e4
+  iOS-Color-Picker: 0eebf395527785e1ff2180c35b69f6d369051555
+  MFSideMenu: 268122e6894f2747fc3a2b48578100b232506c60
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  RESideMenu: f24c508404b49c667344c54aba7e590883533958
+
+PODFILE CHECKSUM: c9a40fe45ce2958c5736374c6912504e5fbb1696
+
+COCOAPODS: 1.1.1

@@ -1,0 +1,222 @@
+//
+//  PrefixHeader.pch
+//  PiingApp
+//
+//  Created by SHASHANK on 03/03/15.
+//  Copyright (c) 2015 shashank. All rights reserved.
+//
+
+#ifndef PiingApp_PrefixHeader_pch
+#define PiingApp_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#define screen_height [[UIScreen mainScreen] bounds].size.height
+#define screen_width [[UIScreen mainScreen] bounds].size.width
+
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+
+#define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+
+#define Static_screens_Build 0 // Static or Functional
+
+#ifndef DLog
+#ifdef DEBUG
+#define DLog(_format_, ...) NSLog(_format_, ## __VA_ARGS__)
+#else
+#define DLog(_format_, ...)
+#endif
+#endif
+
+#import "AppDelegate.h"
+#import "MFSideMenu.h"
+#import "WebserviceMethods.h"
+#import "EGOImageView.h"
+#import "CoreDataMethods.h"
+#import "SSKeychain.h"
+
+#import "iToast.h"
+
+//Data Model Objects
+#import "Order.h"
+#import "ItemsDetails.h"
+#import "BagDetails.h"
+
+#import "UIColor+ExpandedColor.h"
+
+#define APPLE_BLUE_COLOR [UIColor colorWithRed:29.0/255.0 green:122.0/255.0 blue:202.0/255.0 alpha:1.0]
+
+#define APP_GREEN_THEME_COLOR [UIColor colorWithRed:64.0/255.0 green:143.0/255.0 blue:210.0/255.0 alpha:1.0]
+
+
+//Developement
+
+//#define BASE_URL @"http://54.169.97.71/piing/"
+//#define BASE_TRACKING_URL @"http://siml.piing.com.sg:14168"
+
+
+
+//Staging
+
+//#define BASE_URL @"http://api.piing.in:14161/api/"
+//#define BASE_TRACKING_URL @"http://api.piing.in:14161"
+
+
+
+//PRODUCTION API
+
+#define BASE_URL @"http://api.piing.com.sg:14161/api/"
+#define BASE_TRACKING_URL @"http://api.piing.com.sg:14161"
+
+
+
+
+
+
+
+//#define BASE_URL @"http://54.169.195.70/piing/"
+//#define BASE_TRACKING_URL @"http://siml.piing.com.sg:14161"
+
+//#define BASE_URL @"http://services.piing.com.sg/piing/"
+//#define BASE_TRACKING_URL @"http://siml.piing.com.sg:14162"
+
+
+#define MULTIPLYHEIGHT [[UIScreen mainScreen] bounds].size.height/480
+
+
+//'1', 'Order Booked'
+//'2', 'Out for Pickup'
+//'3', 'Garments Pickedup'
+//'4', 'Washing In Progress'
+//'5', 'Delivery Rescheduled'
+//'6', 'Out for Delivery'
+//'7', 'Delivered'
+//'8', 'Delivered At Door'
+//'9', 'Door Locked'
+//'10', 'Order Cancelled'
+//'11', 'Suspended'
+//'12', 'Partially Delivered'
+//'13', 'Book Now'
+//'14', 'Started for Pickup'
+//'15', 'Started for Delivery'
+//'16', 'At the Door Pickup'
+//'17', 'At the Door Delivery'
+
+
+#define     APPFONT_Heavy                       @"Lato-Heavy"
+#define     APPFONT_Heavy_ITALIC                @"Lato-HeavyItalic"
+
+#define     APPFONT_Thin                        @"Lato-Thin"
+#define     APPFONT_ThinItalic                  @"Lato-ThinItalic"
+
+#define     APPFONT_BOLD                        @"Lato-Bold"
+#define     APPFONT_BOLD_ITALIC                 @"Lato-BoldItalic"
+
+#define     APPFONT_SEMI_BOLD                   @"Lato-Semibold"
+#define     APPFONT_SemiBold_Italic             @"Lato-SemiboldItalic"
+
+#define     APPFONT_BLACK                       @"Lato-Black"
+#define     APPFONT_BlackItalic                 @"Lato-BlackItalic"
+
+#define     APPFONT_LIGHT                      @"Lato-Light"
+#define     APPFONT_LIGHT_ITALIC                @"Lato-LightItalic"
+
+#define     APPFONT_REGULAR                     @"Lato-Regular"
+#define     APPFONT_ITALIC                      @"Lato-Italic"
+
+#define     APPFONT_MediumItalic                @"Lato-MediumItalic"
+#define     APPFONT_MEDIUM                      @"Lato-Medium"
+
+
+
+#define GOOGLE_API_KEY @"AIzaSyC_dOxVwr6EeEdBSIRq6vWKp59gzocmn0g"
+
+//#define GOOGLE_API_KEY @"AIzaSyCkEccrUP7nIe5QMqnjPVsspcuOnOegc2o"
+
+
+
+#define APP_FONT_COLOR_GREY [UIColor colorWithRed:81.0/255.0 green:81.0/255.0 blue:82.0/255.0 alpha:1.0]
+#define LIGHT_GRAY_BACKGROUND_COLOR [[UIColor lightGrayColor] colorWithAlphaComponent:0.2]
+
+#define LIGHT_BLUE_COLOR [[UIColor colorWithRed:29.0/255.0 green:122.0/255.0 blue:202.0/255.0 alpha:0.9]colorWithAlphaComponent:0.7]
+
+#define BLUE_COLOR [UIColor colorWithRed:29.0/255.0 green:122.0/255.0 blue:202.0/255.0 alpha:1.0]
+
+#define BLUE_COLOR_HIGHLITED [UIColor colorFromHexString:@"#4e93cd"]
+
+#define ORDER_TYPE_REGULAR @"R"
+#define ORDER_TYPE_EXPRESS @"E"
+
+#define BLUR_EFFECT_STYLE_DARK @"DARK"
+#define BLUR_EFFECT_STYLE_LIGHT @"LIGHT"
+#define BLUR_EFFECT_STYLE_EXTRA_LIGHT @"EXTRA LIGHT"
+
+#define RGBCOLORCODE(r, g, b, a) [UIColor colorWithRed:((r) / 255.0) green:((g) / 255.0) blue:((b) / 255.0) alpha:(a)]
+
+#define ORDER_USER_ID @"userId"
+#define ORDER_TYPE @"orderSpeed" //R/O - regular/ordinar , E- Express
+#define ORDER_PICKUP_DATE @"pickUpDate"
+#define ORDER_PICKUP_SLOT @"pickUpSlotId"
+#define ORDER_DELIVERY_DATE @"deliveryDate"
+#define ORDER_DELIVERY_SLOT @"deliverySlotId"
+#define ORDER_PICKUP_ADDRESS_ID @"pickupAddressId"
+#define ORDER_DELIVERY_ADDRESS_ID @"deliveryAddressId"
+#define ORDER_CARD_ID @"paymentTypeId"
+#define ORDER_TOKEN @"t"
+#define ORDER_FREQUENCY @"frequency"
+#define ORDER_JOB_TYPE @"serviceTypes"
+#define ORDER_DELIVERY_AT_DOOR @"deliverAtDoor"
+#define ORDER_NOTES @"notes"
+#define PREFERENCES_OPENED @"PREFERENCES_OPENED"
+#define PREFERENCES_SELECTED @"preferences"
+#define ORDER_FROM @"orderType"
+#define PROMO_CODE @"promoCode"
+
+
+#define SERVICETYPE_WF @"WF"
+#define SERVICETYPE_DC @"DC"
+#define SERVICETYPE_DCG @"DCG"
+#define SERVICETYPE_WI @"WI"
+#define SERVICETYPE_IR @"IR"
+#define SERVICETYPE_LE @"LE"
+#define SERVICETYPE_CA @"CA"
+#define SERVICETYPE_CC @"CC"
+#define SERVICETYPE_CC_DC @"CC_DC"
+#define SERVICETYPE_CC_W_DC @"CC_W_DC"
+#define SERVICETYPE_CC_WI @"CC_WI"
+#define SERVICETYPE_CC_W_WI @"CC_W_WI"
+#define SERVICETYPE_BAG @"BAG"
+#define SERVICETYPE_SHOE @"SHOE"
+#define SERVICETYPE_SHOE_POLISH @"SHOEPO"
+#define SERVICETYPE_SHOE_CLEAN @"SHOECL"
+
+
+#define SERVICETYPE_HL_WI @"HL_WI"
+#define SERVICETYPE_HL_DC @"HL_DC"
+#define SERVICETYPE_HL_DCG @"HL_DCG"
+
+
+
+#define CATEGORY_SERVICETYPE_GENERAL @"GARMENTS & LINEN"
+#define CATEGORY_SERVICETYPE_HOME @"CURTAINS & CARPETS"
+#define CATEGORY_SERVICETYPE_SPECIALCARE @"BAGS, SHOES & MORE"
+
+#define PIINGO_TOEKN @"piingo_token"
+#define PID @"piingoID"
+
+#define GDC_TITLE @"Green Dry Cleaning "
+#define GDC_TEXT @" is a 100% chemical-free & eco-friendly cleaning process that is very gentle on "
+#define GDC_FINAL @"your skin, your fabrics and the planet."
+
+
+#endif
+
+
+
+
+

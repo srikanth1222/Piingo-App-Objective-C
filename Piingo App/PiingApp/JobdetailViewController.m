@@ -4867,15 +4867,17 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     {
         [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
         
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:PID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", appDel.latitude, @"lat", appDel.longitude, @"lon", [orderDetailDic objectForKey:@"oid"], @"orderId", self.strTaskId, @"taskId", self.strDirection, @"direction", [orderDetailDic objectForKey:@"uid"], @"userId", nil];
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:PID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:PID], @"pid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", appDel.latitude, @"lat", appDel.longitude, @"lon", [orderDetailDic objectForKey:@"oid"], @"orderId", self.strTaskId, @"taskId", self.strDirection, @"direction", [orderDetailDic objectForKey:@"uid"], @"userId", nil];
         
-        [appDel.socketIO emitWithAck:@"piingob startorder" with:@[dic]](0, ^(NSArray* data) {
+        NSString *urlStr = [NSString stringWithFormat:@"%@piingoapp/order/start", BASE_URL];
+        
+        [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
+        
+        [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:dic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
             
-            if ([[[data objectAtIndex:0]objectForKey:@"s"]intValue] == 1)
-            {
-                [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
-                
-                NSLog(@"piingob startorder : %@", data);
+            [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
+            
+            if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1){
                 
                 [statusDisplayButton setTitle:@"AT THE DOOR" forState:UIControlStateNormal];
                 
@@ -4883,17 +4885,37 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
                 [statusDisplayButton setImage:butImage1 forState:UIControlStateNormal];
                 
                 [statusDisplayButton centerImageAndTextWithSpacing:6.0];
-                
-                if (automaticStartOrder)
-                {
-                    [self atTheDoorClicked];
-                }
             }
-            else
-            {
-                [self startServiceCalled];
-            }
-        });
+        }];
+        
+        
+        
+        
+//        [appDel.socketIO emitWithAck:@"piingob startorder" with:@[dic]](0, ^(NSArray* data) {
+//
+//            if ([[[data objectAtIndex:0]objectForKey:@"s"]intValue] == 1)
+//            {
+//                [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
+//
+//                NSLog(@"piingob startorder : %@", data);
+//
+//                [statusDisplayButton setTitle:@"AT THE DOOR" forState:UIControlStateNormal];
+//
+//                UIImage *butImage1 = [UIImage imageNamed:@"door_locked.png"];
+//                [statusDisplayButton setImage:butImage1 forState:UIControlStateNormal];
+//
+//                [statusDisplayButton centerImageAndTextWithSpacing:6.0];
+//
+//                if (automaticStartOrder)
+//                {
+//                    [self atTheDoorClicked];
+//                }
+//            }
+//            else
+//            {
+//                [self startServiceCalled];
+//            }
+//        });
     }
 }
 
@@ -4906,15 +4928,17 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     {
         [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
         
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:PID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", appDel.latitude, @"lat", appDel.longitude, @"lon", [orderDetailDic objectForKey:@"oid"], @"orderId", self.strTaskId, @"taskId", self.strDirection, @"direction", [orderDetailDic objectForKey:@"uid"], @"userId", nil];
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:PID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:PID], @"pid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", appDel.latitude, @"lat", appDel.longitude, @"lon", [orderDetailDic objectForKey:@"oid"], @"orderId", self.strTaskId, @"taskId", self.strDirection, @"direction", [orderDetailDic objectForKey:@"uid"], @"userId", nil];
         
-        [appDel.socketIO emitWithAck:@"piingob atthedoor" with:@[dic]](0, ^(NSArray* data) {
+        NSString *urlStr = [NSString stringWithFormat:@"%@piingoapp/order/atthedoor", BASE_URL];
+        
+        [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
+        
+        [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:dic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
             
-            if ([[[data objectAtIndex:0]objectForKey:@"s"]intValue] == 1)
-            {
-                [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
-                
-                NSLog(@"piingob atthedoor : %@", data);
+            [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
+            
+            if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1){
                 
                 editbutton.hidden = NO;
                 
@@ -4931,12 +4955,36 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
                 
                 statusDisplayButton.enabled = NO;
             }
-            else
-            {
-                [self atTheDoorClicked];
-            }
-            
-        });
+        }];
+//        [appDel.socketIO emitWithAck:@"piingob atthedoor" with:@[dic]](0, ^(NSArray* data) {
+//
+//            if ([[[data objectAtIndex:0]objectForKey:@"s"]intValue] == 1)
+//            {
+//                [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
+//
+//                NSLog(@"piingob atthedoor : %@", data);
+//
+//                editbutton.hidden = NO;
+//
+//                doorLockedBtn.enabled = YES;
+//
+//                if ([self.strDirection caseInsensitiveCompare:@"Delivery"] == NSOrderedSame)
+//                {
+//                    cancelOrderBtn.enabled = NO;
+//                }
+//                else
+//                {
+//                    cancelOrderBtn.enabled = YES;
+//                }
+//
+//                statusDisplayButton.enabled = NO;
+//            }
+//            else
+//            {
+//                [self atTheDoorClicked];
+//            }
+//
+//        });
     }
 }
 
@@ -5214,20 +5262,32 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 {
     if (appDel.latitude && appDel.socketIO)
     {
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:PID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", appDel.latitude, @"lat", appDel.longitude, @"lon", [orderDetailDic objectForKey:@"oid"], @"orderId", self.strTaskId, @"taskId", self.strDirection, @"direction", [orderDetailDic objectForKey:@"uid"], @"userId", nil];
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:PID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:PID], @"pid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", appDel.latitude, @"lat", appDel.longitude, @"lon", [orderDetailDic objectForKey:@"oid"], @"orderId", self.strTaskId, @"taskId", self.strDirection, @"direction", [orderDetailDic objectForKey:@"uid"], @"userId", nil];
         
-        [appDel.socketIO emitWithAck:@"piingob finishorder" with:@[dic]](0, ^(NSArray* data) {
+        NSString *urlStr = [NSString stringWithFormat:@"%@piingoapp/order/confirm", BASE_URL];
+        
+        [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
+        
+        [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:dic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
             
-            if ([[[data objectAtIndex:0]objectForKey:@"s"] intValue] == 1)
-            {
-                NSLog(@"piingob finishorder : %@", data);
-            }
-            else
-            {
-                [self finishOrderNodeJS];
-            }
+            [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
             
-        });
+            
+        }];
+        
+        
+//        [appDel.socketIO emitWithAck:@"piingob finishorder" with:@[dic]](0, ^(NSArray* data) {
+//
+//            if ([[[data objectAtIndex:0]objectForKey:@"s"] intValue] == 1)
+//            {
+//                NSLog(@"piingob finishorder : %@", data);
+//            }
+//            else
+//            {
+//                [self finishOrderNodeJS];
+//            }
+//
+//        });
     }
     else
     {
@@ -5281,27 +5341,43 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
                                          
                                          if (appDel.latitude && appDel.socketIO)
                                          {
-                                             NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:PID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", appDel.latitude, @"lat", appDel.longitude, @"lon", [orderDetailDic objectForKey:@"oid"], @"orderId", self.strTaskId, @"taskId", self.strDirection, @"direction", [orderDetailDic objectForKey:@"uid"], @"userId", nil];
+                                             NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:PID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:PID], @"pid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", appDel.latitude, @"lat", appDel.longitude, @"lon", [orderDetailDic objectForKey:@"oid"], @"orderId", self.strTaskId, @"taskId", self.strDirection, @"direction", [orderDetailDic objectForKey:@"uid"], @"userId", nil];
                                              
-                                             [appDel.socketIO emitWithAck:@"piingob deferred" with:@[dic]](0, ^(NSArray* data) {
+                                             NSString *urlStr = [NSString stringWithFormat:@"%@piingoapp/order/deferred", BASE_URL];
+                                             
+                                             [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
+                                             
+                                             [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:dic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
                                                  
-                                                 if ([[[data objectAtIndex:0]objectForKey:@"s"] intValue] == 1)
-                                                 {
-                                                     NSLog(@"piingob deferred : %@", data);
+                                                 [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
+                                                 
+                                                 if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1){
                                                      
                                                      [appDel showAlertWithMessage:@"Pickup order is confirmed. but Piingo should enter bag details later." andTitle:@"" andBtnTitle:@"OK"];
                                                      
-                                                     [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
-                                                     
                                                      [self gotoBack];
                                                  }
-                                                 else
-                                                 {
-                                                     [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
-                                                     
-                                                     [appDel showAlertWithMessage:@"Error occured while confirming the pickup order." andTitle:@"" andBtnTitle:@"OK"];
-                                                 }
-                                             });
+                                             }];
+                                             
+//                                             [appDel.socketIO emitWithAck:@"piingob deferred" with:@[dic]](0, ^(NSArray* data) {
+//
+//                                                 if ([[[data objectAtIndex:0]objectForKey:@"s"] intValue] == 1)
+//                                                 {
+//                                                     NSLog(@"piingob deferred : %@", data);
+//
+//                                                     [appDel showAlertWithMessage:@"Pickup order is confirmed. but Piingo should enter bag details later." andTitle:@"" andBtnTitle:@"OK"];
+//
+//                                                     [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
+//
+//                                                     [self gotoBack];
+//                                                 }
+//                                                 else
+//                                                 {
+//                                                     [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
+//
+//                                                     [appDel showAlertWithMessage:@"Error occured while confirming the pickup order." andTitle:@"" andBtnTitle:@"OK"];
+//                                                 }
+//                                             });
                                          }
                                      }
                                      else
@@ -5548,20 +5624,35 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 {
     if (appDel.latitude && appDel.socketIO)
     {
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:PID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", appDel.latitude, @"lat", appDel.longitude, @"lon", [orderDetailDic objectForKey:@"oid"], @"orderId", self.strTaskId, @"taskId", strReasonName, @"r", self.strDirection, @"direction", [orderDetailDic objectForKey:@"uid"], @"userId", nil];
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:PID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:PID], @"pid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", appDel.latitude, @"lat", appDel.longitude, @"lon", [orderDetailDic objectForKey:@"oid"], @"orderId", self.strTaskId, @"taskId", strReasonName, @"r", self.strDirection, @"direction", [orderDetailDic objectForKey:@"uid"], @"userId", nil];
         
-        [appDel.socketIO emitWithAck:@"piingob unabletoserve" with:@[dic]](0, ^(NSArray* data) {
+        NSString *urlStr = [NSString stringWithFormat:@"%@piingoapp/order/unabletoserve", BASE_URL];
+        
+        [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
+        
+        [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:dic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
             
-            if ([[[data objectAtIndex:0]objectForKey:@"s"]intValue] == 1)
-            {
-                NSLog(@"piingob unabletoserve : %@", data);
-            }
-            else
-            {
-                [self unabletoServeNodeJS];
-            }
+            [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
             
-        });
+            if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1){
+                
+                
+            }
+        }];
+        
+        
+//        [appDel.socketIO emitWithAck:@"piingob unabletoserve" with:@[dic]](0, ^(NSArray* data) {
+//
+//            if ([[[data objectAtIndex:0]objectForKey:@"s"]intValue] == 1)
+//            {
+//                NSLog(@"piingob unabletoserve : %@", data);
+//            }
+//            else
+//            {
+//                [self unabletoServeNodeJS];
+//            }
+//
+//        });
     }
 }
 

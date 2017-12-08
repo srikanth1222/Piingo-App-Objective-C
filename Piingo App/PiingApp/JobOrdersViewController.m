@@ -762,11 +762,13 @@
     {
         CGFloat yPos = 7*MULTIPLYHEIGHT;
         
-        yPos += 15*MULTIPLYHEIGHT+5*MULTIPLYHEIGHT;
+        CGFloat lblDH = 15*MULTIPLYHEIGHT;
         
-        yPos += 15*MULTIPLYHEIGHT+5*MULTIPLYHEIGHT;
+        yPos += lblDH+5*MULTIPLYHEIGHT;
         
-        yPos += 15*MULTIPLYHEIGHT+5*MULTIPLYHEIGHT;
+        yPos += lblDH+5*MULTIPLYHEIGHT;
+        
+        yPos += lblDH+5*MULTIPLYHEIGHT;
         
         NSDictionary *dictMain = [self.displayOrders objectAtIndex:indexPath.section];
         
@@ -836,6 +838,11 @@
         CGFloat height = [AppDelegate getLabelHeightForRegularText:strAddr WithWidth:addrW FontSize:appDel.FONT_SIZE_CUSTOM];
         
         yPos += height+5*MULTIPLYHEIGHT;
+        
+        if ([[dictOrder objectForKey:@"serviceTypes"] containsObject:SERVICETYPE_CC_W_DC] || [[dictOrder objectForKey:@"serviceTypes"] containsObject:SERVICETYPE_CC_DC])
+        {
+            yPos += lblDH+5*MULTIPLYHEIGHT;
+        }
         
         if (segmentControl.selectedSegmentIndex == 0)
         {
@@ -1026,6 +1033,13 @@
             orderAddressLbl.textColor = [UIColor blackColor];
             [cellBg addSubview:orderAddressLbl];
             
+            UILabel*lblCurtain = [[UILabel alloc]init];
+            lblCurtain.tag = 17;
+            lblCurtain.font = [UIFont fontWithName:APPFONT_BOLD size:appDel.FONT_SIZE_CUSTOM-2];
+            lblCurtain.backgroundColor = [UIColor clearColor];
+            lblCurtain.textColor = [UIColor blackColor];
+            [cellBg addSubview:lblCurtain];
+            
             UILabel*lblTotalBags = [[UILabel alloc]init];
             lblTotalBags.tag = 15;
             lblTotalBags.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.FONT_SIZE_CUSTOM-1];
@@ -1070,6 +1084,7 @@
         UIImageView *slotCloctImgV = (UIImageView *) [cell.contentView viewWithTag:12];
         UILabel *lblTotalBags = (UILabel *) [cell.contentView viewWithTag:15];
         UILabel *lblReceivedBags = (UILabel *) [cell.contentView viewWithTag:16];
+        UILabel *lblCurtain = (UILabel *) [cell.contentView viewWithTag:17];
         
         NSDictionary *dictMain = [self.displayOrders objectAtIndex:indexPath.section];
         
@@ -1180,6 +1195,25 @@
         
         yPos += height+5*MULTIPLYHEIGHT;
         
+        if ([[dictOrder objectForKey:@"serviceTypes"] containsObject:SERVICETYPE_CC_W_DC])
+        {
+            lblCurtain.frame = CGRectMake(xpos, yPos, addrW, lblDH);
+            yPos += lblDH+5*MULTIPLYHEIGHT;
+            
+            lblCurtain.text = @"CURTAIN ORDER WITH INSTALLATION";
+        }
+        else if ([[dictOrder objectForKey:@"serviceTypes"] containsObject:SERVICETYPE_CC_DC])
+        {
+            lblCurtain.frame = CGRectMake(xpos, yPos, addrW, lblDH);
+            yPos += height+5*MULTIPLYHEIGHT;
+            
+            lblCurtain.text = @"CURTAIN ORDER WITHOUT INSTALLATION";
+        }
+        else
+        {
+            lblCurtain.text = @"";
+        }
+        
         if (segmentControl.selectedSegmentIndex == 0)
         {
             if ([[dictOrder objectForKey:@"direction"] caseInsensitiveCompare:@"Delivery"] == NSOrderedSame)
@@ -1218,19 +1252,10 @@
         frame.size.height = yPos;
         cellBg.frame = frame;
         
-        
         orderPersonNameLbl.text = [dictOrder objectForKey:@"userName"];
         
-        if ([[dictOrder objectForKey:@"serviceTypes"] containsObject:SERVICETYPE_CC_DC] || [[dictOrder objectForKey:@"serviceTypes"] containsObject:SERVICETYPE_CC_W_DC] || [[dictOrder objectForKey:@"serviceTypes"] containsObject:SERVICETYPE_CC_WI] || [[dictOrder objectForKey:@"serviceTypes"] containsObject:SERVICETYPE_CC_W_WI])
-        {
-            lblOrderId.text = [NSString stringWithFormat:@"ORDER ID # %@  CURTAIN ORDER", [dictOrder objectForKey:@"oid"]];
-            lblOrderId.textColor = [UIColor blackColor];
-        }
-        else
-        {
-            lblOrderId.text = [NSString stringWithFormat:@"ORDER ID # %@", [dictOrder objectForKey:@"oid"]];
-            lblOrderId.textColor = [UIColor colorWithRed:81.0/255.0 green:81.0/255.0 blue:82.0/255.0 alpha:1.0];
-        }
+        lblOrderId.text = [NSString stringWithFormat:@"ORDER ID # %@", [dictOrder objectForKey:@"oid"]];
+        lblOrderId.textColor = [UIColor blackColor];
         
         if ([[dictOrder objectForKey:@"orderType"] isEqualToString:@"B"])
         {

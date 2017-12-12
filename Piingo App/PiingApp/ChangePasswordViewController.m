@@ -9,7 +9,7 @@
 #import "ChangePasswordViewController.h"
 #import "AppDelegate.h"
 
-@interface ChangePasswordViewController ()
+@interface ChangePasswordViewController () <UITextFieldDelegate>
 {
     AppDelegate *appDel;
 }
@@ -87,6 +87,12 @@
     [appDel.sideMenuViewController presentLeftMenuViewController];
     
     // [self setupMenuBarButtonItems];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 

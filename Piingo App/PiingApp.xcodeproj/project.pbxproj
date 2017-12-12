@@ -260,6 +260,7 @@
 		E62CE2341E8BFCB400802683 /* thumb_nonselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E62CE2331E8BFCB400802683 /* thumb_nonselected@2x.png */; };
 		E62CE2361E8BFF9900802683 /* forward_arrow_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E62CE2351E8BFF9900802683 /* forward_arrow_grey@2x.png */; };
 		E62ED95A1D3629E800AFBE5F /* HSDNavigationManeuverView.m in Sources */ = {isa = PBXBuildFile; fileRef = E62ED9591D3629E800AFBE5F /* HSDNavigationManeuverView.m */; };
+		E63203611FDEFB5800286B0A /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E63203601FDEFB5800286B0A /* ChangePasswordViewController.m */; };
 		E632FCF01F5434010030B1C9 /* ScanController.m in Sources */ = {isa = PBXBuildFile; fileRef = E632FCEF1F5434010030B1C9 /* ScanController.m */; };
 		E638092A1F51981B002DD087 /* beep_sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E63809291F51981B002DD087 /* beep_sound.mp3 */; };
 		E64C45541D6C664800DFE312 /* PPSSignatureView.m in Sources */ = {isa = PBXBuildFile; fileRef = E64C45531D6C664800DFE312 /* PPSSignatureView.m */; };
@@ -2928,6 +2929,8 @@
 		E62CE2351E8BFF9900802683 /* forward_arrow_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward_arrow_grey@2x.png"; sourceTree = "<group>"; };
 		E62ED9581D3629E800AFBE5F /* HSDNavigationManeuverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSDNavigationManeuverView.h; sourceTree = "<group>"; };
 		E62ED9591D3629E800AFBE5F /* HSDNavigationManeuverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSDNavigationManeuverView.m; sourceTree = "<group>"; };
+		E632035F1FDEFB5800286B0A /* ChangePasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		E63203601FDEFB5800286B0A /* ChangePasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
 		E632FCEE1F5434010030B1C9 /* ScanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanController.h; sourceTree = "<group>"; };
 		E632FCEF1F5434010030B1C9 /* ScanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanController.m; sourceTree = "<group>"; };
 		E63809291F51981B002DD087 /* beep_sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beep_sound.mp3; sourceTree = "<group>"; };
@@ -5390,6 +5393,7 @@
 				E694BAF61D13D06A007BF588 /* Third Party Classes */,
 				F36067051BE5100700C32DD1 /* Job Details Images */,
 				12FEFF401AA614D900186552 /* Webservice */,
+				E632035E1FDEFB2700286B0A /* Change password */,
 				1249FEEC1AA4F494007ECD2B /* Login */,
 				12E3C8221AA50731009E2FA3 /* Home Screen */,
 				12793ED11AA7225D0067FB82 /* My orders */,
@@ -6052,6 +6056,15 @@
 				E67A2F591F9E2D0B00763831 /* ScanViewController.m */,
 			);
 			name = "QR Scan reader";
+			sourceTree = "<group>";
+		};
+		E632035E1FDEFB2700286B0A /* Change password */ = {
+			isa = PBXGroup;
+			children = (
+				E632035F1FDEFB5800286B0A /* ChangePasswordViewController.h */,
+				E63203601FDEFB5800286B0A /* ChangePasswordViewController.m */,
+			);
+			name = "Change password";
 			sourceTree = "<group>";
 		};
 		E64C454B1D6C661600DFE312 /* Drawing classes */ = {
@@ -11222,6 +11235,7 @@
 				12D258AF1ADA86FD00A72ABB /* CustomLabel.m in Sources */,
 				E6F69D791D9101160012284F /* SocketAckManager.swift in Sources */,
 				E6F69D8B1D9101160012284F /* SocketParsable.swift in Sources */,
+				E63203611FDEFB5800286B0A /* ChangePasswordViewController.m in Sources */,
 				12793EDA1AA722E30067FB82 /* MyschduleTableViewCell.m in Sources */,
 				E679BE451CBFB30800CB151E /* WNFTableViewCell.m in Sources */,
 				E68851181D75741F00B0ECC3 /* NSData+Base64.m in Sources */,

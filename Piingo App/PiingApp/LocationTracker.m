@@ -89,8 +89,8 @@
     
 	if ([CLLocationManager locationServicesEnabled] == NO) {
         NSLog(@"locationServicesEnabled false");
-		UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"You currently have all location services for this device disabled" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[servicesDisabledAlert show];
+        
+        [AppDelegate showAlertWithMessage:@"You currently have all location services for this device disabled" andTitle:@"Location Services Disabled" andBtnTitle:@"OK"];
 	} else {
         CLAuthorizationStatus authorizationStatus= [CLLocationManager authorizationStatus];
         
@@ -218,9 +218,23 @@
     appDel.xValue = newHeading.x;
     appDel.yValue = newHeading.y;
     appDel.zValue = newHeading.z;
-    
-    //self.driverMarker.rotation = lastDriverAngleFromNorth - mapBearing;
 }
+
+
+-(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+    
+}
+
+-(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
+    
+    
+}
+
+-(void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
+    
+}
+
+
 
 //#pragma mark - GMSMapViewDelegate
 //
@@ -249,13 +263,11 @@
     {
         case kCLErrorNetwork: // general, network-related error
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Please check your network connection." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
+            [AppDelegate showAlertWithMessage:@"Please check your network connection." andTitle:@"Network Error" andBtnTitle:@"OK"];
         }
             break;
         case kCLErrorDenied:{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Enable Location Service" message:@"You have to enable the Location Service to use this App. To enable, please go to Settings->Privacy->Location Services" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
+            [AppDelegate showAlertWithMessage:@"You have to enable the Location Service to use this App. To enable, please go to Settings->Privacy->Location Services" andTitle:@"Enable Location Service" andBtnTitle:@"OK"];            
         }
             break;
         default:

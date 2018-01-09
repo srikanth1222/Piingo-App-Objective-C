@@ -113,15 +113,13 @@
 
     if (!([emailTxtFeild.text length] > 0))
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Email should not be empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
+        [AppDelegate showAlertWithMessage:@"Email should not be empty" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
     if (![self validateTextFieldWithText:emailTxtFeild.text With:@"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please enter a valid email address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
+        [AppDelegate showAlertWithMessage:@"Please enter a valid email address" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -141,9 +139,7 @@
         if ([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1)
         {
             emailTxtFeild.text = @"";
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"A link/password is sent your register mail address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
+            [AppDelegate showAlertWithMessage:@"A link/password is sent your register mail address" andTitle:@"" andBtnTitle:@"OK"];            
         }
         else
         {

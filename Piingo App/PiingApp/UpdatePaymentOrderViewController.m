@@ -146,8 +146,7 @@
     }
     else
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Some erro e = %@",[response objectForKey:@"e"] ] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-        [alertView show];
+        [AppDelegate showAlertWithMessage:[response objectForKey:@"e"] andTitle:@"Error" andBtnTitle:@"OK"];
     }
     
 }
@@ -172,36 +171,65 @@
             {
                 if (selctedCC == 0)
                 {
+                    UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Update Success" message:@"Please collect the bill amount and confirm." preferredStyle:UIAlertControllerStyleAlert];
                     
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Update Success" message:@"Please collect the bill amount and confirm." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-                    alertView.tag = 1;
-                    [alertView show];
+                    UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        
+                        if (selctedCC == 0)
+                        {
+                            [self cashPayment];
+                        }
+                        else
+                        {
+                            [self creditcardpayment];
+                        }
+                    }];
+                    
+                    [successAlert addAction:okAc];
+                    [self presentViewController:successAlert animated:YES completion:nil];
                     
                 }
                 else
                 {
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Update Success" message:[NSString stringWithFormat:@"Do you want to Re-conform the order?"] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-                    alertView.tag = 1;
-                    [alertView show];
+                    UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Update Success" message:@"Do you want to Re-conform the order?" preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        
+                        if (selctedCC == 0)
+                        {
+                            [self cashPayment];
+                        }
+                        else
+                        {
+                            [self creditcardpayment];
+                        }
+                    }];
+                    
+                    UIAlertAction *cancelAc = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        
+                        [successAlert dismissViewControllerAnimated:YES completion:nil];
+                        
+                    }];
+                    
+                    [successAlert addAction:okAc];
+                    [successAlert addAction:cancelAc];
+                    
+                    [self presentViewController:successAlert animated:YES completion:nil];
                 }
             }
             else
             {
                 if ([[responseObj objectForKey:@"e"] isEqual:@"28"])
                 {
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Invalid Card number used OR card not found" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alertView show];
+                    [AppDelegate showAlertWithMessage:@"Invalid Card number used OR card not found" andTitle:@"Error" andBtnTitle:@"OK"];
                     
                 }
                 else
                 {
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Invalid Card number used OR card not found" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-                    [alertView show];
+                    [AppDelegate showAlertWithMessage:@"Invalid Card number used OR card not found" andTitle:@"Error" andBtnTitle:@"OK"];
                 }
-                
             }
         }
-        
     }];
 
 }
@@ -210,33 +238,6 @@
 -(void) cancelBtnClicked
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == 1)
-    {
-        if (selctedCC == 0)
-        {
-            [self cashPayment];
-        }
-        else
-        {
-            [self creditcardpayment];
-        }
-    }
-    
-    else if (alertView.tag == 2)
-    {
-        if ([self.delegate respondsToSelector:@selector(didConformPatyment)])
-        {
-            [self dismissViewControllerAnimated:YES completion:^{
-                
-                [self.delegate didConformPatyment];
-                
-            }];
-        }
-    }
 }
 
 
@@ -255,15 +256,29 @@
         {
             if ([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] caseInsensitiveCompare:@"y"] == NSOrderedSame)
             {
-                UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Successfully Order Delivered" message:@"Please dont forget to collect the money" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                transactionAlertView.tag = 2;
-                [transactionAlertView show];
+                UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Successfully Order Delivered" message:@"Please dont forget to collect the money" preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    
+                    if ([self.delegate respondsToSelector:@selector(didConformPatyment)])
+                    {
+                        [self dismissViewControllerAnimated:YES completion:^{
+                            
+                            [self.delegate didConformPatyment];
+                            
+                        }];
+                    }
+                }];
+                
+                [successAlert addAction:okAc];
+                [self presentViewController:successAlert animated:YES completion:nil];
             }
             else
             {
                 //[appDel displayErrorMessagErrorResponse:responseObj];
-                UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Failure" message:@"Have some problem in conform the order please retry to conform." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-                [transactionAlertView show];
+                
+                [AppDelegate showAlertWithMessage:@"Have some problem in conform the order please retry to conform." andTitle:@"Error" andBtnTitle:@"OK"];
+                
             }
         }
     }];
@@ -288,14 +303,27 @@
             {
                 if ([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] caseInsensitiveCompare:@"y"] == NSOrderedSame)
                 {
-                    UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Successfully Order Delivered" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    transactionAlertView.tag = 2;
-                    [transactionAlertView show];
+                    UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Successfully Order Delivered" message:@"Please dont forget to collect the money" preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        
+                        if ([self.delegate respondsToSelector:@selector(didConformPatyment)])
+                        {
+                            [self dismissViewControllerAnimated:YES completion:^{
+                                
+                                [self.delegate didConformPatyment];
+                                
+                            }];
+                        }
+                    }];
+                    
+                    [successAlert addAction:okAc];
+                    [self presentViewController:successAlert animated:YES completion:nil];
                 }
                 else
                 {
-                    UIAlertView *paymentTypeerror = [[UIAlertView alloc] initWithTitle:@"Transaction Failed" message:@"Please choose another payment mode" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [paymentTypeerror show];
+                    [AppDelegate showAlertWithMessage:@"Please choose another payment mode" andTitle:@"Transaction Failed" andBtnTitle:@"OK"];
+                    
                 }
             }
             

@@ -248,8 +248,7 @@
             }
             else
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No current orders found" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
+                [AppDelegate showAlertWithMessage:@"No current orders found" andTitle:@"" andBtnTitle:@"OK"];
             }
             
             [orderTableView reloadData];
@@ -468,9 +467,7 @@
             {
                 if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"checkInStatus"] isEqualToString:@"0"])
                 {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Please checkin first before you start for any order in menu" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
-                    
+                    [AppDelegate showAlertWithMessage:@"Please checkin first from menu before you start for any order" andTitle:@"" andBtnTitle:@"OK"];
                     return;
                 }
                 
@@ -540,8 +537,7 @@
                 
                 if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"checkInStatus"] isEqualToString:@"0"])
                 {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Please checkin first before you start for any order in menu" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
+                    [AppDelegate showAlertWithMessage:@"Please checkin first from menu before you start for any order" andTitle:@"" andBtnTitle:@"OK"];
                     
                     return;
                 }
@@ -638,14 +634,16 @@
             {
                 if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"checkInStatus"] isEqualToString:@"0"])
                 {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Please checkin first before you start for any order in menu" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [alert show];
-                    
+                    [AppDelegate showAlertWithMessage:@"Please checkin first from menu before you start for any order" andTitle:@"" andBtnTitle:@"OK"];
+                                        
                     return;
                 }
                 else
                 {
-                    [appDel showAlertWithMessage:@"Please complete the previous timeslot orders." andTitle:@"" andBtnTitle:@"OK"];
+                    if ([[dictOrder objectForKey:@"taskStatus"] isEqualToString:@"P"])
+                    {
+                        [appDel showAlertWithMessage:@"Please complete the previous timeslot orders." andTitle:@"" andBtnTitle:@"OK"];
+                    }
                 }
                 
                 NSDictionary *dictDetail = [NSDictionary dictionaryWithObjectsAndKeys:[dictOrder objectForKey:@"oid"], @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:PID], @"pid", [[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN], @"t", nil];
@@ -672,7 +670,14 @@
                             jobDetailVC.strPaymentId = [dictOrder objectForKey:ORDER_CARD_ID];
                             jobDetailVC.strDirection = [dictOrder objectForKey:@"direction"];
                             
-                            jobDetailVC.userInteractionEnabled = NO;
+                            if ([[dictOrder objectForKey:@"taskStatus"] isEqualToString:@"P"])
+                            {
+                                jobDetailVC.userInteractionEnabled = NO;
+                            }
+                            else
+                            {
+                                jobDetailVC.userInteractionEnabled = YES;
+                            }
                             
                             [self.navigationController pushViewController:jobDetailVC animated:YES];
                             
@@ -1205,7 +1210,7 @@
         else if ([[dictOrder objectForKey:@"serviceTypes"] containsObject:SERVICETYPE_CC_DC])
         {
             lblCurtain.frame = CGRectMake(xpos, yPos, addrW, lblDH);
-            yPos += height+5*MULTIPLYHEIGHT;
+            yPos += lblDH+5*MULTIPLYHEIGHT;
             
             lblCurtain.text = @"CURTAIN ORDER WITHOUT INSTALLATION";
         }
@@ -1240,6 +1245,12 @@
                 lblTotalBags.hidden = YES;
                 lblReceivedBags.hidden = YES;
             }
+        }
+        else {
+            
+            lblTotalBags.text = @"";
+            lblReceivedBags.text = @"";
+            lblReceivedBags.backgroundColor = [UIColor clearColor];
         }
         
         statusBtn.frame = CGRectMake(0, yPos, cellBg.frame.size.width, 25*MULTIPLYHEIGHT);

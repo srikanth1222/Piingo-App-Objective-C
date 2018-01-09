@@ -120,38 +120,11 @@
         }
         else
         {
-            if ([[response objectForKey:@"e"] isEqualToString:@"1"])
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Email id exists  " delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
-                
-            }
-            else if([[response objectForKey:@"e"] isEqualToString:@"2"])
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Error while saving data" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
-            }
-            else if([[response objectForKey:@"e"] isEqualToString:@"10"])
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Error in inputs" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
-                
-            }
-            else if([[response objectForKey:@"e"] isEqualToString:@"100"])
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Service Authentication failed." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
-                
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Unknown Error." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
-                
-            }
+            [appDel displayErrorMessagErrorResponse:response];
         }
     }
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

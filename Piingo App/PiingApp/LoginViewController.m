@@ -148,15 +148,13 @@
     {
         if (![self validateTextFieldWithText:emailString With:@"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"])
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please enter a valid email address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
+            [AppDelegate showAlertWithMessage:@"Please enter a valid email address" andTitle:@"" andBtnTitle:@"OK"];
             
             return;
         }
         if ([passwordString length] < 5)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Password should be at least 6 characters" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
+            [AppDelegate showAlertWithMessage:@"Password should be at least 6 characters" andTitle:@"" andBtnTitle:@"OK"];
             
             return;
         }

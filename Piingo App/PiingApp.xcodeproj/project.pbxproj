@@ -305,6 +305,8 @@
 		E694BB031D13DF84007BF588 /* wash_fold_price@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E694BAFF1D13DF84007BF588 /* wash_fold_price@2x.png */; };
 		E694BB041D13DF84007BF588 /* wash_iron_price@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E694BB001D13DF84007BF588 /* wash_iron_price@2x.png */; };
 		E69CCC661CC8911100BF1113 /* WashAndIronBagTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E69CCC651CC8911100BF1113 /* WashAndIronBagTableViewCell.m */; };
+		E6C92AB4200335D700CFD9BF /* GeofenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C92AB3200335D600CFD9BF /* GeofenceViewController.swift */; };
+		E6C92AB62003368B00CFD9BF /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6C92AB52003368B00CFD9BF /* UserNotifications.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E6CCADF71CEEEB5600543D58 /* piingo_van@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6CCADF41CEEEB5600543D58 /* piingo_van@2x.png */; };
 		E6CCADF81CEEEB5600543D58 /* home_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6CCADF51CEEEB5600543D58 /* home_map@2x.png */; };
 		E6CCADF91CEEEB5600543D58 /* piingo_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6CCADF61CEEEB5600543D58 /* piingo_map@2x.png */; };
@@ -2990,6 +2992,8 @@
 		E694BAFF1D13DF84007BF588 /* wash_fold_price@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wash_fold_price@2x.png"; sourceTree = "<group>"; };
 		E694BB001D13DF84007BF588 /* wash_iron_price@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wash_iron_price@2x.png"; sourceTree = "<group>"; };
 		E69CCC651CC8911100BF1113 /* WashAndIronBagTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WashAndIronBagTableViewCell.m; sourceTree = "<group>"; };
+		E6C92AB3200335D600CFD9BF /* GeofenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeofenceViewController.swift; sourceTree = "<group>"; };
+		E6C92AB52003368B00CFD9BF /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		E6CCADF41CEEEB5600543D58 /* piingo_van@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piingo_van@2x.png"; sourceTree = "<group>"; };
 		E6CCADF51CEEEB5600543D58 /* home_map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home_map@2x.png"; sourceTree = "<group>"; };
 		E6CCADF61CEEEB5600543D58 /* piingo_map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piingo_map@2x.png"; sourceTree = "<group>"; };
@@ -5298,6 +5302,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6C92AB62003368B00CFD9BF /* UserNotifications.framework in Frameworks */,
 				129050551AD4603E008CDEE6 /* AVFoundation.framework in Frameworks */,
 				129050691AD460B9008CDEE6 /* SystemConfiguration.framework in Frameworks */,
 				129050671AD460AE008CDEE6 /* QuartzCore.framework in Frameworks */,
@@ -5383,6 +5388,7 @@
 			isa = PBXGroup;
 			children = (
 				E6194A421ECF08FE0059593C /* PiingApp.entitlements */,
+				E6C92AB3200335D600CFD9BF /* GeofenceViewController.swift */,
 				1249FEC21AA4DCAA007ECD2B /* AppDelegate.h */,
 				1249FEC31AA4DCAA007ECD2B /* AppDelegate.m */,
 				F35ECA461C98761A00F6E1EE /* EmptyViewController.h */,
@@ -6031,6 +6037,7 @@
 		7957D393E82CB472627DE981 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E6C92AB52003368B00CFD9BF /* UserNotifications.framework */,
 				1249FEE91AA4E0C1007ECD2B /* CoreLocation.framework */,
 				1249FEE71AA4E072007ECD2B /* MapKit.framework */,
 				129050681AD460B9008CDEE6 /* SystemConfiguration.framework */,
@@ -11213,6 +11220,7 @@
 				E694BAF91D13D07F007BF588 /* HMSegmentedControl.m in Sources */,
 				126F0FCB1AABAE2A0042860B /* PanicViewController.m in Sources */,
 				F3FC53EB1BFA24B6003484F4 /* ListView.m in Sources */,
+				E6C92AB4200335D700CFD9BF /* GeofenceViewController.swift in Sources */,
 				1209EB2A1AE823DB000B5FEB /* ItemCollectionViewCell.m in Sources */,
 				12E3C82B1AA507D2009E2FA3 /* JobOrderTableViewCell.m in Sources */,
 				E62CE2301E8BD1D300802683 /* DateTimeViewController.m in Sources */,
@@ -11368,7 +11376,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "165262b7-9558-4d30-acab-373b7c98aad7";
@@ -11414,7 +11422,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "165262b7-9558-4d30-acab-373b7c98aad7";
 				SDKROOT = iphoneos;
@@ -11428,10 +11436,12 @@
 			baseConfigurationReference = 64341936BB90C94287F0C000 /* Pods-PiingApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = PiingApp/PiingApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Piing Pte Ltd (PMQK439UXC)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Piing Pte Ltd (PMQK439UXC)";
+				CODE_SIGN_STYLE = Manual;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PMQK439UXC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -11443,7 +11453,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = PiingApp/PrefixHeader.pch;
 				INFOPLIST_FILE = PiingApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11514,10 +11524,12 @@
 			baseConfigurationReference = 15A2894FDEF35063B90BA287 /* Pods-PiingApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = PiingApp/PiingApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Piing Pte Ltd (PMQK439UXC)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Piing Pte Ltd (PMQK439UXC)";
+				CODE_SIGN_STYLE = Manual;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PMQK439UXC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -11529,7 +11541,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = PiingApp/PrefixHeader.pch;
 				INFOPLIST_FILE = PiingApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

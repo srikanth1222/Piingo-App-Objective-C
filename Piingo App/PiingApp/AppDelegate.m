@@ -118,6 +118,12 @@
     
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     
+    if (screenBounds.size.height == 812)
+    {
+        self.window.frame = CGRectMake(0, 30, screen_width, screen_height);
+        NSLog(@"screen height : %f", screen_height);
+    }
+    
     dictSaveData = [[NSMutableDictionary alloc]init];
     
     //Initialization
@@ -138,32 +144,29 @@
         DLog(@"New uuid: %@", self.UUID);
     }
     
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound) categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    UNUserNotificationCenter *notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
     
-    UIAlertView * alert;
+    [notificationCenter requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        if(!error){
+            
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+            }];
+        }
+    }];
+    
+//    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound) categories:nil];
+//    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     
     //We have to make sure that the Background App Refresh is enable for the Location updates to work in the background.
     if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusDenied){
         
-        alert = [[UIAlertView alloc]initWithTitle:@""
-                                          message:@"The app doesn't work without the Background App Refresh enabled. To turn it on, go to Settings > General > Background App Refresh"
-                                         delegate:nil
-                                cancelButtonTitle:@"Ok"
-                                otherButtonTitles:nil, nil];
-        [alert show];
+        [self showAlertWithMessage:@"The app doesn't work without the Background App Refresh enabled. To turn it on, go to Settings > General > Background App Refresh" andTitle:@"" andBtnTitle:@"OK"];
         
     }
     else if ([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusRestricted)
     {
-        
-        alert = [[UIAlertView alloc]initWithTitle:@""
-                                          message:@"The functions of this app are limited because the Background App Refresh is disable."
-                                         delegate:nil
-                                cancelButtonTitle:@"Ok"
-                                otherButtonTitles:nil, nil];
-        [alert show];
-        
+        [self showAlertWithMessage:@"The functions of this app are limited because the Background App Refresh is disable." andTitle:@"" andBtnTitle:@"OK"];
     }
     else
     {
@@ -1030,14 +1033,40 @@
 
 - (void)showAlertWithMessage:(NSString *)msg andTitle:(NSString *)title andBtnTitle:(NSString *)btnTitle{
     
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alert show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    [alertController addAction:defaultAction];
+    
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topController.presentedViewController)
+    {
+        topController = topController.presentedViewController;
+    }
+    
+    [topController presentViewController:alertController animated:YES completion:nil];
 }
 
 + (void)showAlertWithMessage:(NSString *)msg andTitle:(NSString *)title andBtnTitle:(NSString *)btnTitle{
     
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alert show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    [alertController addAction:defaultAction];
+    
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topController.presentedViewController)
+    {
+        topController = topController.presentedViewController;
+    }
+    
+    [topController presentViewController:alertController animated:YES completion:nil];
 }
 
 
@@ -1102,11 +1131,6 @@
     self.strDeviceToken = devTokenStr;
     
     //[self showAlertWithMessage:self.strDeviceToken andTitle:@"" andBtnTitle:@"OK"];
-    
-//    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:self.strDeviceToken delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-//    [alert show];
-    
-    //[self registerDeviceForPNSWithDevToken];
 }
 
 
@@ -1341,11 +1365,6 @@
     
     [self connectPiingobWhenLogin];
     
-    
-//    UIAlertView *aleert = [[UIAlertView alloc]initWithTitle:[[NSUserDefaults standardUserDefaults] objectForKey:PIINGO_TOEKN] message:self.UUID delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-//    [aleert show];
-    
-    
     JobOrdersViewController *jobOrdersVC = [[JobOrdersViewController alloc] initWithNibName:@"JobOrdersViewController" bundle:nil];
     self.jobOrdersList = jobOrdersVC;
     
@@ -1500,9 +1519,7 @@
         
     } else {
         
-        UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [warning show];
+        [self showAlertWithMessage:@"Your device doesn't support this feature." andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 #pragma mark SMS Support Methods
@@ -1518,8 +1535,8 @@
             
         case MessageComposeResultFailed:
         {
-            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warningAlert show];
+            [self showAlertWithMessage:@"Failed to send SMS!" andTitle:@"Error" andBtnTitle:@"OK"];
+            
             break;
         }
             
@@ -1535,8 +1552,8 @@
 - (void)showSMS:(NSString*)file {
     
     if(![MFMessageComposeViewController canSendText]) {
-        UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't support SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [warningAlert show];
+        
+        [self showAlertWithMessage:@"Your device doesn't support SMS!" andTitle:@"Error" andBtnTitle:@"OK"];
         return;
     }
     

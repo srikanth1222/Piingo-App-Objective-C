@@ -320,9 +320,8 @@ UILabel *titleLabel1;
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     
     NSLog(@"error: %@", [error localizedDescription]);
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Map Directions" message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-    [alertView show];
-    //    //[loaderView stopLoading];
+    
+    [AppDelegate showAlertWithMessage:[error localizedDescription] andTitle:@"Map Directions" andBtnTitle:@"OK"];
     
 }
 
@@ -389,10 +388,7 @@ UILabel *titleLabel1;
                 NSLog(@"i vallllll = %d",i);
                 NSLog(@"exception :%@", exception);
                 
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Map Directions" message:@"Cannot draw the directions to selected destination." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                [alertView show];
-                //                //[loaderView stopLoading];
-                
+                [AppDelegate showAlertWithMessage:@"Cannot draw the directions to selected destination." andTitle:@"Map Directions" andBtnTitle:@"OK"];
                 
             }
         }
@@ -406,14 +402,11 @@ UILabel *titleLabel1;
             }
         }
         else if (self.decodedPolylineArray.count == 0) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Map Directions" message:@"Cannot draw the directions to selected destination" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
-            //[loaderView stopLoading];
+            
+            [AppDelegate showAlertWithMessage:@"Cannot draw the directions to selected destination." andTitle:@"Map Directions" andBtnTitle:@"OK"];
         }
         else{
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Map Directions" message:@"Destination is too long to draw the directions." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alertView show];
-            //[loaderView stopLoading];
+            [AppDelegate showAlertWithMessage:@"Destination is too long to draw the directions." andTitle:@"Map Directions" andBtnTitle:@"OK"];
         }
     }
 }

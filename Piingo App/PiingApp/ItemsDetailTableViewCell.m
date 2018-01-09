@@ -19,7 +19,6 @@
 
 #define SPECIAL_REQ_NON_ACTIVE_COLOR [UIColor colorWithRed:173.0/255.0 green:173.0/255.0 blue:173.0/255.0 alpha:1.0]
 #define SPECIAL_REQ_SELECTED_COLOR [UIColor colorWithRed:210.0/255.0 green:187.0/255.0 blue:102.0/255.0 alpha:1.0]
-#define DELETE_BAG_BTN_TAG 20
 
 @implementation ItemsDetailTableViewCell
 
@@ -602,8 +601,7 @@
     {
         if ([[CoreDataMethods sharedInstance] checkTagisAlreadyExits:selectedItemObj.order andTagString:tagTextFeild.text andManualTagString:manualTagTextFeild.text])
         {
-            UIAlertView *tagErrorAlert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Tag number should not be repeat." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [tagErrorAlert show];
+            [AppDelegate showAlertWithMessage:@"Tag number should not be repeat." andTitle:@"Alert" andBtnTitle:@"OK"];
             
             return;
         }
@@ -773,62 +771,67 @@
     }
     else
     {
-        UIAlertView *tagErrorAlert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please attach the Bag number" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [tagErrorAlert show];
+        [AppDelegate showAlertWithMessage:@"Please attach the Bag number" andTitle:@"Alert" andBtnTitle:@"OK"];
+        
     }
     
 
 }
 -(void) deleteBagBtnClicked
 {
-    UIAlertView *warning =[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Are you sure do you want to delete the bag" delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
-    warning.tag = DELETE_BAG_BTN_TAG;
-    [warning show];
-}
-#pragma mark UIAlertView Delegate methods
--(void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == DELETE_BAG_BTN_TAG)
-    {
-        if (buttonIndex == 0)
+    
+    UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"" message:@"Are you sure do you want to delete the bag" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (selectedItemObj)
         {
-            if (selectedItemObj)
+           
+            for(UIView *v in [self subviews])
             {
-//                for(UIView *v in [self.contentView subviews])
-//                {
-//                    [v removeFromSuperview];
-//                }
-//
-                for(UIView *v in [self subviews])
-                {
-                    if (v.tag == BAG_DETAILS_VIEW_TAG)
-                        [v removeFromSuperview];
-                }
-                
-                
-                NSMutableSet *mutableSet = [NSMutableSet setWithSet:selectedItemObj.order.bagsDetails];
-                [mutableSet removeObject:selectedItemObj];
-                selectedItemObj.order.bagsDetails = mutableSet;
-                
-                [selectedItemObj removeItems:selectedItemObj.items];
-//                [[appDel managedObjectContext] deleteObject:selectedItemObj];
-            }
-            NSError *error;
-            if (![[appDel managedObjectContext] save:&error]) {
-                NSLog(@"error %@",error);
+                if (v.tag == BAG_DETAILS_VIEW_TAG)
+                    [v removeFromSuperview];
             }
             
-            if ([parentDel respondsToSelector:@selector(itemDetailsAreUploadedWithTag:)])
-            {
-                JobdetailViewController *obj = parentDel;
-                
-                [obj.arrayBagTags removeObject:selectedItemObj.bagTag];
-                
-                [parentDel performSelector:@selector(itemDetailsAreUploadedWithTag:) withObject:nil];
-            }
+            
+            NSMutableSet *mutableSet = [NSMutableSet setWithSet:selectedItemObj.order.bagsDetails];
+            [mutableSet removeObject:selectedItemObj];
+            selectedItemObj.order.bagsDetails = mutableSet;
+            
+            [selectedItemObj removeItems:selectedItemObj.items];
         }
+        NSError *error;
+        if (![[appDel managedObjectContext] save:&error]) {
+            NSLog(@"error %@",error);
+        }
+        
+        if ([parentDel respondsToSelector:@selector(itemDetailsAreUploadedWithTag:)])
+        {
+            JobdetailViewController *obj = parentDel;
+            
+            [obj.arrayBagTags removeObject:selectedItemObj.bagTag];
+            
+            [parentDel performSelector:@selector(itemDetailsAreUploadedWithTag:) withObject:nil];
+        }
+    }];
+    
+     UIAlertAction *nokAc = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+         
+         [successAlert dismissViewControllerAnimated:YES completion:nil];
+     }];
+    
+    [successAlert addAction:okAc];
+    [successAlert addAction:nokAc];
+    
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topController.presentedViewController)
+    {
+        topController = topController.presentedViewController;
     }
+    
+    [topController presentViewController:successAlert animated:YES completion:nil];
 }
+
 
 #pragma mark - TextFeild Delegate methods
 

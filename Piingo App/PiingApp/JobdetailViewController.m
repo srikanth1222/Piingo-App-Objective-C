@@ -36,16 +36,8 @@
 
 
 
-
-#define CANCEL_ORDER_BTN_TAG 11
-#define DOOR_LOCKED_ORDER_BTN_TAG 18
-
-
-#define AFTER_ORDER_CONFORMED 17
-
-
-static const NSTimeInterval routingTimeLimit = 300;
-static const NSTimeInterval timeIncrement = 1;
+//static const NSTimeInterval routingTimeLimit = 300;
+//static const NSTimeInterval timeIncrement = 1;
 
 static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://";
 
@@ -223,8 +215,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
         {
             if ([[responseObj objectForKey:@"addresses"] count] == 0)
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"There are no address in your address book please add at least one address." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
+                [AppDelegate showAlertWithMessage:@"There are no address in your address book please add at least one address." andTitle:@"" andBtnTitle:@"OK"];
                 
                 return;
             }
@@ -3226,19 +3217,19 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 //        }break;
 //    }
 //}
-
-#pragma mark - Utility
-
--(void)postLocalNotification:(NSString*)notificationMsg
-{
-    // Post a new local notification
-    UILocalNotification *notif = [[UILocalNotification alloc] init];
-    notif.alertBody = notificationMsg;
-    notif.fireDate = [NSDate date]; // now
-    notif.applicationIconBadgeNumber = 1;
-    [[UIApplication sharedApplication] scheduleLocalNotification:notif];
-}
-
+//
+//#pragma mark - Utility
+//
+//-(void)postLocalNotification:(NSString*)notificationMsg
+//{
+//    // Post a new local notification
+//    UILocalNotification *notif = [[UILocalNotification alloc] init];
+//    notif.alertBody = notificationMsg;
+//    notif.fireDate = [NSDate date]; // now
+//    notif.applicationIconBadgeNumber = 1;
+//    [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+//}
+//
 
 //-(NSString*)textForManeuverTurn:(NMAManeuverTurn)turn
 //{
@@ -3512,7 +3503,8 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 //            }
             
             NSString *phoneNumber = [@"telprompt://" stringByAppendingString:strPhone];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber] options:@{} completionHandler:nil];
             
         } else {
             
@@ -4879,12 +4871,24 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
             
             if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1){
                 
+                CLLocationManager *locationManager = [LocationTracker sharedLocationManager];
+                
+                CLLocationCoordinate2D userLocation = CLLocationCoordinate2DMake([[orderDetailDic objectForKey:@"lat"] doubleValue], [[orderDetailDic objectForKey:@"lon"] doubleValue]);
+                
+                CLCircularRegion *region = [[CLCircularRegion alloc]initWithCenter:userLocation radius:100 identifier:[orderDetailDic objectForKey:@"oid"]];
+                
+                [locationManager startMonitoringForRegion:region];
+                
                 [statusDisplayButton setTitle:@"AT THE DOOR" forState:UIControlStateNormal];
                 
                 UIImage *butImage1 = [UIImage imageNamed:@"door_locked.png"];
                 [statusDisplayButton setImage:butImage1 forState:UIControlStateNormal];
                 
                 [statusDisplayButton centerImageAndTextWithSpacing:6.0];
+            }
+            else {
+                
+                [appDel displayErrorMessagErrorResponse:responseObj];
             }
         }];
         
@@ -4954,6 +4958,10 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
                 }
                 
                 statusDisplayButton.enabled = NO;
+            }
+            else {
+                
+                [appDel displayErrorMessagErrorResponse:responseObj];
             }
         }];
 //        [appDel.socketIO emitWithAck:@"piingob atthedoor" with:@[dic]](0, ^(NSArray* data) {
@@ -5357,6 +5365,10 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
                                                      
                                                      [self gotoBack];
                                                  }
+                                                 else {
+                                                     
+                                                     [appDel displayErrorMessagErrorResponse:responseObj];
+                                                 }
                                              }];
                                              
 //                                             [appDel.socketIO emitWithAck:@"piingob deferred" with:@[dic]](0, ^(NSArray* data) {
@@ -5638,6 +5650,10 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
                 
                 
             }
+            else {
+                
+                [appDel displayErrorMessagErrorResponse:responseObj];
+            }
         }];
         
         
@@ -5656,39 +5672,26 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     }
 }
 
-#pragma mark UIActionView DelegateMethods
--(void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == CANCEL_ORDER_BTN_TAG)
-    {
-        if (buttonIndex == 0)
-        {
-            strOSType = @"C";
-            
-            [self createSignatureView];
-        }
-    }
+-(void) methodAfterOrderConfirmed {
     
-    else if (alertView.tag == AFTER_ORDER_CONFORMED)
+    if (self.isFromCreateOrder)
     {
-        if (self.isFromCreateOrder)
+        appDel.isPickupCompletedForCreatedOrder = YES;
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    else
+    {
+        if ([arrayRewashItems count])
         {
-            appDel.isPickupCompletedForCreatedOrder = YES;
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self editOrder];
         }
         else
         {
-            if ([arrayRewashItems count])
-            {
-                [self editOrder];
-            }
-            else
-            {
-                [self gotoBack];
-            }
+            [self gotoBack];
         }
     }
 }
+
 
 -(void) createSignatureView
 {
@@ -6113,24 +6116,28 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
                                  
                                  if ([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1)
                                  {
-                                     
                                      [self finishOrderNodeJS];
                                      
-                                     UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Successfully Order Placed" message:@"" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-                                     transactionAlertView.tag = AFTER_ORDER_CONFORMED;
-                                     [transactionAlertView show];
+                                     UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"" message:@"Successfully Order Placed" preferredStyle:UIAlertControllerStyleAlert];
+                                     
+                                     UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                         
+                                         [self methodAfterOrderConfirmed];
+                                     }];
+                                     
+                                     [successAlert addAction:okAc];
+                                     [self presentViewController:successAlert animated:YES completion:nil];
                                  }
                                  else
                                  {
-                                     //[appDel displayErrorMessagErrorResponse:responseObj];
-                                     UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Failure" message:@"Have some problem in conform the order please retry to conform." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-                                     [transactionAlertView show];
+                                     [AppDelegate showAlertWithMessage:@"Have some problem in conform the order please retry to conform." andTitle:@"Failure" andBtnTitle:@"OK"];
                                  }
                              }];
                              
                              [alert dismissViewControllerAnimated:YES completion:nil];
                              
                          }];
+    
     UIAlertAction* cancel = [UIAlertAction
                              actionWithTitle:@"Cancel"
                              style:UIAlertActionStyleDefault
@@ -6195,14 +6202,20 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
         
         if ([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1)
         {
-            UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Successfully Order Delivered without payment" message:@"" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-            transactionAlertView.tag = AFTER_ORDER_CONFORMED;
-            [transactionAlertView show];
+            [self finishOrderNodeJS];
+            
+            UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"" message:@"Successfully Order Delivered without payment" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                [self methodAfterOrderConfirmed];
+            }];
+            
+            [successAlert addAction:okAc];
+            [self presentViewController:successAlert animated:YES completion:nil];
             
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:appDel.strCobId];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [self finishOrderNodeJS];
         }
         else
         {
@@ -6362,15 +6375,27 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
                 {
                     if ([[orderDetailDic objectForKey:ORDER_CARD_ID] caseInsensitiveCompare:@"Cash"] != NSOrderedSame)
                     {
-                        UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Successfully Order Delivered" message:@"" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-                        transactionAlertView.tag = AFTER_ORDER_CONFORMED;
-                        [transactionAlertView show];
+                        UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"" message:@"Successfully Order Delivered" preferredStyle:UIAlertControllerStyleAlert];
+                        
+                        UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                            
+                            [self methodAfterOrderConfirmed];
+                        }];
+                        
+                        [successAlert addAction:okAc];
+                        [self presentViewController:successAlert animated:YES completion:nil];
                     }
                     else
                     {
-                        UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Successfully Order Delivered" message:@"Please don't forget to collect the money" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-                        transactionAlertView.tag = AFTER_ORDER_CONFORMED;
-                        [transactionAlertView show];
+                        UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Successfully Order Delivered" message:@"Please don't forget to collect the money" preferredStyle:UIAlertControllerStyleAlert];
+                        
+                        UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                            
+                            [self methodAfterOrderConfirmed];
+                        }];
+                        
+                        [successAlert addAction:okAc];
+                        [self presentViewController:successAlert animated:YES completion:nil];
                     }
                     
                     [[NSUserDefaults standardUserDefaults] removeObjectForKey:appDel.strCobId];
@@ -7771,30 +7796,55 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
                     {
                         if ([arrayRewashItems count])
                         {
-                            UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Order Delivered Partially" message:@"Please confirm the rewash order" delegate:self cancelButtonTitle:@"Next" otherButtonTitles:nil, nil];
-                            transactionAlertView.tag = AFTER_ORDER_CONFORMED;
-                            [transactionAlertView show];
+                            UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Order Delivered Partially" message:@"Please confirm the rewash order" preferredStyle:UIAlertControllerStyleAlert];
+                            
+                            UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"Next" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                
+                                [self methodAfterOrderConfirmed];
+                            }];
+                            
+                            [successAlert addAction:okAc];
+                            [self presentViewController:successAlert animated:YES completion:nil];
+                         
                         }
                         else
                         {
-                            UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Order Delivered Partially" message:@"" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-                            transactionAlertView.tag = AFTER_ORDER_CONFORMED;
-                            [transactionAlertView show];
+                            UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Order Delivered Partially" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+                            
+                            UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                
+                                [self methodAfterOrderConfirmed];
+                            }];
+                            
+                            [successAlert addAction:okAc];
+                            [self presentViewController:successAlert animated:YES completion:nil];
                         }
                     }
                     else
                     {
                         if ([arrayRewashItems count])
                         {
-                            UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Order Delivered Partially, Please don't forget to collect the money." message:@"Please confirm the rewash order" delegate:self cancelButtonTitle:@"Next" otherButtonTitles:nil, nil];
-                            transactionAlertView.tag = AFTER_ORDER_CONFORMED;
-                            [transactionAlertView show];
+                            UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Order Delivered Partially, Please don't forget to collect the money." message:@"Please confirm the rewash order" preferredStyle:UIAlertControllerStyleAlert];
+                            
+                            UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"Next" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                
+                                [self methodAfterOrderConfirmed];
+                            }];
+                            
+                            [successAlert addAction:okAc];
+                            [self presentViewController:successAlert animated:YES completion:nil];
                         }
                         else
                         {
-                            UIAlertView *transactionAlertView = [[UIAlertView alloc] initWithTitle:@"Order Delivered Partially" message:@"Please don't forget to collect the money." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-                            transactionAlertView.tag = AFTER_ORDER_CONFORMED;
-                            [transactionAlertView show];
+                            UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Order Delivered Partially" message:@"Please don't forget to collect the money." preferredStyle:UIAlertControllerStyleAlert];
+                            
+                            UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                
+                                [self methodAfterOrderConfirmed];
+                            }];
+                            
+                            [successAlert addAction:okAc];
+                            [self presentViewController:successAlert animated:YES completion:nil];
                         }
                     }
                     

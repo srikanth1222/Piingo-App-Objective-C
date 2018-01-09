@@ -286,8 +286,7 @@
             }
             else
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No receivable orders found" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
+                [AppDelegate showAlertWithMessage:@"No receivable orders found" andTitle:@"" andBtnTitle:@"OK"];                
             }
             
             [orderTableView reloadData];

@@ -155,22 +155,26 @@ typedef enum
             [appdel.checkInSwitch setOn:YES];
             appdel.checkInSwitch.enabled = NO;
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You are successfully Checked in" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
+            [AppDelegate showAlertWithMessage:@"You are successfully Checked in" andTitle:@"Success" andBtnTitle:@"OK"];
             
+            CLLocationManager *locationManager = [LocationTracker sharedLocationManager];
+            
+            for (CLRegion *region in locationManager.monitoredRegions)
             {
-                [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"checkInStatus"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                
-                JobOrdersViewController *jobsController = [[JobOrdersViewController alloc] initWithNibName:@"JobOrdersViewController" bundle:nil];
-                appdel.jobOrdersList = jobsController;
-                
-                UINavigationController *navigationController = (UINavigationController *) self.sideMenuViewController.contentViewController;
-                NSArray *controllers = [NSArray arrayWithObject:jobsController];
-                navigationController.viewControllers = controllers;
-                
-                [appdel.sideMenuViewController hideMenuViewController];
+                [locationManager stopMonitoringForRegion:region];
             }
+            
+            [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"checkInStatus"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            JobOrdersViewController *jobsController = [[JobOrdersViewController alloc] initWithNibName:@"JobOrdersViewController" bundle:nil];
+            appdel.jobOrdersList = jobsController;
+            
+            UINavigationController *navigationController = (UINavigationController *) self.sideMenuViewController.contentViewController;
+            NSArray *controllers = [NSArray arrayWithObject:jobsController];
+            navigationController.viewControllers = controllers;
+            
+            [appdel.sideMenuViewController hideMenuViewController];
         }
         else
         {

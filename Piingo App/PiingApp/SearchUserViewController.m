@@ -236,8 +236,7 @@
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"checkInStatus"] isEqualToString:@"0"])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Please checkin first before you create for any order in menu" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
+        [AppDelegate showAlertWithMessage:@"Please checkin from Menu first before you create for any order" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -259,8 +258,7 @@
         {
             if ([[responseObj objectForKey:@"addresses"] count] == 0)
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"There are no address in your address book please add at least one address." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
+                [AppDelegate showAlertWithMessage:@"There are no address in your address book please add at least one address." andTitle:@"" andBtnTitle:@"OK"];
                 
                 return;
             }

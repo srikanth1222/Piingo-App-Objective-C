@@ -703,8 +703,6 @@ UILabel *titleLabel;
     
     [self showAlertWithMessage:[error localizedDescription] andTitle:@"Map Directions" andBtnTitle:@"OK"];
     
-    //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Map Directions" message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-    //    [alertView show];
     [loaderView stopLoading];
     
 }
@@ -809,11 +807,7 @@ UILabel *titleLabel;
                         
                         [self showAlertWithMessage:@"Cannot draw the directions to selected destination" andTitle:@"Map Directions" andBtnTitle:@"OK"];
                         
-                        //                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Map Directions" message:@"Cannot draw the directions to selected destination." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                        //                [alertView show];
-                        //[loaderView stopLoading];
-                        
-                        
+                     
                     }
                 }
                 

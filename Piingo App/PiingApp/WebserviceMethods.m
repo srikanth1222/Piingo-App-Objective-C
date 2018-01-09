@@ -50,10 +50,7 @@
         {
             DLog(@"%@ %li %@",error,(long)[error code],[error localizedDescription]);
             
-            UIAlertView *errorMessageAlert = [[UIAlertView alloc] initWithTitle:nil message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [errorMessageAlert show];
-            
-            //        [[iToast makeText:[error localizedDescription]] show];
+            [AppDelegate showAlertWithMessage:[error localizedDescription] andTitle:@"" andBtnTitle:@"OK"];
             
             if (callback) {
                 
@@ -118,6 +115,7 @@
     }
     
 }
+
 -(id)sendSynchronousRequestForComponent:(NSString *) name methodName:(NSString *)methodname  type:(NSString *) type  parameters:(NSDictionary *) parameters{
     id results;
     
@@ -147,14 +145,8 @@
 //        if(![methodname isEqualToString:@"redeem-voucher"])
 //            [[iToast makeText:[error localizedDescription]] show];
         
-         UIAlertView *errorMessageAlert = [[UIAlertView alloc] initWithTitle:nil message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-         [errorMessageAlert show];
+        [AppDelegate showAlertWithMessage:[error localizedDescription] andTitle:@"" andBtnTitle:@"OK"];
         
-//        else if ([parent respondsToSelector:@selector(receivedResponse:)]) {
-//            
-//            [parent performSelectorOnMainThread:@selector(receivedResponse:) withObject:nil waitUntilDone:YES];
-//        }
-
     }
     
     // AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -711,10 +703,8 @@
     AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
     
-        UIAlertView *errorMessageAlert = [[UIAlertView alloc] initWithTitle:nil message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [errorMessageAlert show];
-//    [[iToast makeText:[error localizedDescription]] show];
-    
+    [AppDelegate showAlertWithMessage:[error localizedDescription] andTitle:@"" andBtnTitle:@"OK"];
+        
     responseData = nil;
     
     if ([delegate respondsToSelector:NSSelectorFromString(self.successCallback)]) {

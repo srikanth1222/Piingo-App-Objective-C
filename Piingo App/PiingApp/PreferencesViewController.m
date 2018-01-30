@@ -606,7 +606,7 @@
 
 -(void) showAlert
 {
-    [appDel showAlertWithMessage:@"You can't change preferences." andTitle:@"" andBtnTitle:@"OK"];
+    [AppDelegate showAlertWithMessage:@"You can't change preferences." andTitle:@"" andBtnTitle:@"OK"];
 }
 
 -(void) switchChanged:(SevenSwitch *)switch1

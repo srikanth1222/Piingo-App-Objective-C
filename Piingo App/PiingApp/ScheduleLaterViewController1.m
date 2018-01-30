@@ -2097,7 +2097,7 @@
 {
     if (self.isDeliveryOrder)
     {
-        [appDel showAlertWithMessage:@"Preferences are not editable by Piingo." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Preferences are not editable by Piingo." andTitle:@"" andBtnTitle:@"OK"];
     }
     else
     {
@@ -2197,7 +2197,7 @@
 {
     if (([self.dictAllowFields count] && [[self.dictAllowFields objectForKey:@"orderSpeed"] intValue] == 0) || self.isRewashOrder)
     {
-        [appDel showAlertWithMessage:@"You can't update order type." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"You can't update order type." andTitle:@"" andBtnTitle:@"OK"];
         
         if ([[self.orderInfo objectForKey:ORDER_TYPE] caseInsensitiveCompare:@"R"] == NSOrderedSame)
         {
@@ -2241,7 +2241,7 @@
 
 - (void)selectPickUpAddress:(UIButton *)sender {
     
-    //    [appDel showAlertWithMessage:@"Pickup address is not editable by Piingo" andTitle:@"" andBtnTitle:@"OK"];
+    //    [AppDelegate showAlertWithMessage:@"Pickup address is not editable by Piingo" andTitle:@"" andBtnTitle:@"OK"];
     //
     //    return;
     
@@ -2334,7 +2334,7 @@
 
 - (void)selectPickUpDate:(UIButton *)sender
 {
-    [appDel showAlertWithMessage:@"Pickup date is not editable by Piingo" andTitle:@"" andBtnTitle:@"OK"];
+    [AppDelegate showAlertWithMessage:@"Pickup date is not editable by Piingo" andTitle:@"" andBtnTitle:@"OK"];
 }
 
 -(void) clickedOnPickupdate
@@ -2368,7 +2368,7 @@
     
     if (![self.pickUpDates count])
     {
-        [appDel showAlertWithMessage:@"Pickup dates are not available at this time." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Pickup dates are not available at this time." andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -2415,7 +2415,7 @@
     
     if (self.isDeliveryOrder || self.isRewashOrder)
     {
-        [appDel showAlertWithMessage:@"Service types are not editable by Piingo." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Service types are not editable by Piingo." andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -2638,17 +2638,17 @@
         
         if (![self.orderInfo objectForKey:ORDER_PICKUP_DATE]) {
             
-            [appDel showAlertWithMessage:@"Please select Pickup Date" andTitle:@"Error" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please select Pickup Date" andTitle:@"Error" andBtnTitle:@"OK"];
             
         }
         else if (![self.orderInfo objectForKey:ORDER_PICKUP_SLOT]) {
             
-            [appDel showAlertWithMessage:@"Please select Pickup Timeslot" andTitle:@"Error" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please select Pickup Timeslot" andTitle:@"Error" andBtnTitle:@"OK"];
             
         }
         else if (![arraySelectedServiceTypes count]) {
             
-            [appDel showAlertWithMessage:@"Please select service type" andTitle:@"Error" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please select service type" andTitle:@"Error" andBtnTitle:@"OK"];
             
         }
     }

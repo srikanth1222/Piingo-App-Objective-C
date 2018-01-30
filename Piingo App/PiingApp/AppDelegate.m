@@ -161,12 +161,12 @@
     //We have to make sure that the Background App Refresh is enable for the Location updates to work in the background.
     if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusDenied){
         
-        [self showAlertWithMessage:@"The app doesn't work without the Background App Refresh enabled. To turn it on, go to Settings > General > Background App Refresh" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"The app doesn't work without the Background App Refresh enabled. To turn it on, go to Settings > General > Background App Refresh" andTitle:@"" andBtnTitle:@"OK"];
         
     }
     else if ([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusRestricted)
     {
-        [self showAlertWithMessage:@"The functions of this app are limited because the Background App Refresh is disable." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"The functions of this app are limited because the Background App Refresh is disable." andTitle:@"" andBtnTitle:@"OK"];
     }
     else
     {
@@ -387,7 +387,7 @@
 {    
     NSLog(@"updateLocation");
     
-    //[self showAlertWithMessage:@"updagting location" andTitle:@"" andBtnTitle:@"OK"];
+    //[AppDelegate showAlertWithMessage:@"updagting location" andTitle:@"" andBtnTitle:@"OK"];
     
     [self.locationTracker updateLocationToServer];
     
@@ -880,7 +880,7 @@
         
         if ([[response objectForKey:@"error"] length])
         {
-            [self showAlertWithMessage:[response objectForKey:@"error"] andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:[response objectForKey:@"error"] andTitle:@"" andBtnTitle:@"OK"];
             
             if([[response objectForKey:@"s"] intValue] == 100)
             {
@@ -889,153 +889,159 @@
         }
         else if([[response objectForKey:@"s"] intValue] == 1)
         {
-            [self showAlertWithMessage:@"Data Processing Failed." andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Data Processing Failed." andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 2)
         {
-            [self showAlertWithMessage:@"Email Doesn't Exists" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Email Doesn't Exists" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 3)
         {
-            [self showAlertWithMessage:@"Email Already Exists" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Email Already Exists" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 4)
         {
-            [self showAlertWithMessage:@"Mobile Number Already Exists" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Mobile Number Already Exists" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 5)
         {
-            [self showAlertWithMessage:@"Zone Change while updating Address" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Zone Change while updating Address" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 6)
         {
-            [self showAlertWithMessage:@"Today is Pickup or Delivery Date Address Update Not Allowed" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Today is Pickup or Delivery Date Address Update Not Allowed" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 7)
         {
-            [self showAlertWithMessage:@"Current Password Doesn't Exists" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Current Password Doesn't Exists" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 8)
         {
-            [self showAlertWithMessage:@"Error while saving data" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Error while saving data" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 9)
         {
-            [self showAlertWithMessage:@"Error while saving data" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Error while saving data" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 10)
         {
-            [self showAlertWithMessage:@"Invalid Input." andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Invalid Input." andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 11)
         {
-            [self showAlertWithMessage:@"Referral Code Is Invalid" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Referral Code Is Invalid" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 12)
         {
-            [self showAlertWithMessage:@"Already registered with this Email Id and activation process is not completed" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Already registered with this Email Id and activation process is not completed" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 13)
         {
-            [self showAlertWithMessage:@"Restriction for Registration with single device more than 3 Times" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Restriction for Registration with single device more than 3 Times" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 14)
         {
-            [self showAlertWithMessage:@"Guest Order Details Saved Successfully" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Guest Order Details Saved Successfully" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 15)
         {
-            [self showAlertWithMessage:@"Order Already Confirmed" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Order Already Confirmed" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 17)
         {
-            [self showAlertWithMessage:@"Currently there are no piingo available for this zone" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Currently there are no piingo available for this zone" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 21)
         {
-            [self showAlertWithMessage:@"Card Details does not exist" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Card Details does not exist" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 22)
         {
-            [self showAlertWithMessage:@"Piingo Id Doesn't Exists" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Piingo Id Doesn't Exists" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 23)
         {
-            [self showAlertWithMessage:@"Order Doesn't Exists With This Cobid" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Order Doesn't Exists With This Cobid" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 24)
         {
-            [self showAlertWithMessage:@"Promocode Does Not Exist" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Promocode Does Not Exist" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 25)
         {
-            [self showAlertWithMessage:@"ManualTagNo Does Not Exist" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"ManualTagNo Does Not Exist" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 50)
         {
-            [self showAlertWithMessage:@"Please enter valid Verification code" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please enter valid Verification code" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 51)
         {
-            [self showAlertWithMessage:@"Activation Code Expired" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Activation Code Expired" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 52)
         {
-            [self showAlertWithMessage:@"Zip Code does not exists/ not found" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Zip Code does not exists/ not found" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 53)
         {
-            [self showAlertWithMessage:@"Account Not Activated" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Account Not Activated" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 54)
         {
-            [self showAlertWithMessage:@"Aname Already Exists" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Aname Already Exists" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 55)
         {
-            [self showAlertWithMessage:@"Account doesn't exists with this User Id" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Account doesn't exists with this User Id" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 100)
         {
-            [self showAlertWithMessage:@"Invalid Token." andTitle:nil andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Invalid Token." andTitle:nil andBtnTitle:@"OK"];
             [self staticLogout];
         }
         else if([[response objectForKey:@"s"] intValue] == 101)
         {
-            [self showAlertWithMessage:@"Error Response from CSS from client order booking" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Error Response from CSS from client order booking" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 102)
         {
-            [self showAlertWithMessage:@"Service Denied Details from CSS" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Service Denied Details from CSS" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 103)
         {
-            [self showAlertWithMessage:@"Confirm Book Now Failed Due to Internal Error in CSS Way Points" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Confirm Book Now Failed Due to Internal Error in CSS Way Points" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 104)
         {
-            [self showAlertWithMessage:@"Error Response from CSS from clientorderdetails" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Error Response from CSS from clientorderdetails" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if([[response objectForKey:@"s"] intValue] == 105)
         {
-            [self showAlertWithMessage:@"Error Response from CSS from update client order booking" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Error Response from CSS from update client order booking" andTitle:@"" andBtnTitle:@"OK"];
         }
         else if (response == nil)
         {
-            //[self showAlertWithMessage:@"The Internet connection appears to be offline." andTitle:@"" andBtnTitle:@"OK"];
+            //[AppDelegate showAlertWithMessage:@"The Internet connection appears to be offline." andTitle:@"" andBtnTitle:@"OK"];
             
-            [self showAlertWithMessage:@"Oops! Something tore. We are working on it right now. Please check back." andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Oops! Something tore. We are working on it right now. Please check back." andTitle:@"" andBtnTitle:@"OK"];
             
         }
         
     }];
 }
 
-- (void)showAlertWithMessage:(NSString *)msg andTitle:(NSString *)title andBtnTitle:(NSString *)btnTitle{
++ (void)showAlertWithMessage:(NSString *)msg andTitle:(NSString *)title andBtnTitle:(NSString *)btnTitle{
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    NSDictionary *dict = [[NSDictionary alloc]initWithObjectsAndKeys:msg, @"message", title, @"title", btnTitle, @"buttonTitle", nil];
     
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+    [self performSelector:@selector(showAlertWithDelay:) withObject:dict afterDelay:0.7];
+}
+
++ (void) showAlertWithDelay: (NSDictionary *) dict {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[dict objectForKey:@"title"] message:[dict objectForKey:@"message"] preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:[dict objectForKey:@"buttonTitle"] style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {}];
     
     [alertController addAction:defaultAction];
@@ -1050,24 +1056,6 @@
     [topController presentViewController:alertController animated:YES completion:nil];
 }
 
-+ (void)showAlertWithMessage:(NSString *)msg andTitle:(NSString *)title andBtnTitle:(NSString *)btnTitle{
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
-    
-    [alertController addAction:defaultAction];
-    
-    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    
-    while (topController.presentedViewController)
-    {
-        topController = topController.presentedViewController;
-    }
-    
-    [topController presentViewController:alertController animated:YES completion:nil];
-}
 
 
 -(void)registerDeviceForPNSWithDevToken
@@ -1084,13 +1072,13 @@
             
             if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1) {
                 
-                //[self showAlertWithMessage:@"saved Device token" andTitle:@"" andBtnTitle:@"OK"];
+                //[AppDelegate showAlertWithMessage:@"saved Device token" andTitle:@"" andBtnTitle:@"OK"];
                 
                 NSLog(@"stored device token in service");
             }
             else {
                 
-                //[self showAlertWithMessage:@"Not saved Device token" andTitle:@"" andBtnTitle:@"OK"];
+                //[AppDelegate showAlertWithMessage:@"Not saved Device token" andTitle:@"" andBtnTitle:@"OK"];
                 
                 NSLog(@"failed to store device token in service");
                 
@@ -1099,7 +1087,7 @@
     }
     else
     {
-        //[self showAlertWithMessage:@"Method not called. Device token" andTitle:@"" andBtnTitle:@"OK"];
+        //[AppDelegate showAlertWithMessage:@"Method not called. Device token" andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -1130,7 +1118,7 @@
     
     self.strDeviceToken = devTokenStr;
     
-    //[self showAlertWithMessage:self.strDeviceToken andTitle:@"" andBtnTitle:@"OK"];
+    //[AppDelegate showAlertWithMessage:self.strDeviceToken andTitle:@"" andBtnTitle:@"OK"];
 }
 
 
@@ -1519,7 +1507,7 @@
         
     } else {
         
-        [self showAlertWithMessage:@"Your device doesn't support this feature." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Your device doesn't support this feature." andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 #pragma mark SMS Support Methods
@@ -1535,7 +1523,7 @@
             
         case MessageComposeResultFailed:
         {
-            [self showAlertWithMessage:@"Failed to send SMS!" andTitle:@"Error" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Failed to send SMS!" andTitle:@"Error" andBtnTitle:@"OK"];
             
             break;
         }
@@ -1553,7 +1541,7 @@
     
     if(![MFMessageComposeViewController canSendText]) {
         
-        [self showAlertWithMessage:@"Your device doesn't support SMS!" andTitle:@"Error" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Your device doesn't support SMS!" andTitle:@"Error" andBtnTitle:@"OK"];
         return;
     }
     

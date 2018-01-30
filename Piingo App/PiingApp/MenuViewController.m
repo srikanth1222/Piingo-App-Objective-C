@@ -203,6 +203,7 @@ typedef enum
             appdel.jobOrdersList = jobsController;
             
             UINavigationController *navigationController = (UINavigationController *) self.sideMenuViewController.contentViewController;
+            
             NSArray *controllers = [NSArray arrayWithObject:jobsController];
             navigationController.viewControllers = controllers;
             
@@ -248,7 +249,7 @@ typedef enum
             break;
         case MySchduleMenuItem:
         {
-            [appdel showAlertWithMessage:@"Panic not available" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Panic not available" andTitle:@"" andBtnTitle:@"OK"];
             
             return;
             
@@ -264,7 +265,7 @@ typedef enum
             break;
         case PanicMenuItem:
         {
-            [appdel showAlertWithMessage:@"Panic not available" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Panic not available" andTitle:@"" andBtnTitle:@"OK"];
             
             return;
             
@@ -280,7 +281,7 @@ typedef enum
             break;
         case TransferMenuItem:
         {
-            [appdel showAlertWithMessage:@"Transfer not available" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Transfer not available" andTitle:@"" andBtnTitle:@"OK"];
             
             return;
             
@@ -294,7 +295,7 @@ typedef enum
         }            break;
         case ReconcileMenuItem:
         {
-            [appdel showAlertWithMessage:@"Reconcile not available" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Reconcile not available" andTitle:@"" andBtnTitle:@"OK"];
             
             return;
             
@@ -308,7 +309,7 @@ typedef enum
         }            break;
         case PriceListMenuItem:
         {
-//            [appdel showAlertWithMessage:@"Price list not available" andTitle:@"" andBtnTitle:@"OK"];
+//            [AppDelegate showAlertWithMessage:@"Price list not available" andTitle:@"" andBtnTitle:@"OK"];
 //            
 //            return;
             
@@ -327,7 +328,7 @@ typedef enum
             break;
         case SmsSupportMenuItem:
             
-            [appdel showAlertWithMessage:@"SMS not available" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"SMS not available" andTitle:@"" andBtnTitle:@"OK"];
             
             return;
             
@@ -344,7 +345,7 @@ typedef enum
             break;
         case CreateAdochOrder:
         {
-//            [appdel showAlertWithMessage:@"Create order not available" andTitle:@"" andBtnTitle:@"OK"];
+//            [AppDelegate showAlertWithMessage:@"Create order not available" andTitle:@"" andBtnTitle:@"OK"];
 //            
 //            return;
             

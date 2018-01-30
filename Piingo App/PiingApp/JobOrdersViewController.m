@@ -155,7 +155,16 @@
     CGFloat yAxis = 0;
     
     CGFloat sgX = 25 * MULTIPLYHEIGHT;
-    CGFloat sgY = 60 * MULTIPLYHEIGHT;
+    
+    CGFloat sgY = 0;
+    if ([[UIScreen mainScreen] nativeBounds].size.height == 2436)
+    {
+        sgY = 70 * MULTIPLYHEIGHT;
+    }
+    else {
+        sgY = 60 * MULTIPLYHEIGHT;
+    }
+    
     CGFloat sgH = 23 * MULTIPLYHEIGHT;
     
     segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"Orders",@"Completed orders"]];
@@ -244,6 +253,11 @@
                         
                         [arrTimeslots addObject:[dict objectForKey:@"slot"]];
                     }
+                }
+                
+                if ([self.displayOrders count] == 0)
+                {
+                    [AppDelegate showAlertWithMessage:@"No current orders found" andTitle:@"" andBtnTitle:@"OK"];
                 }
             }
             else
@@ -473,7 +487,7 @@
                 
                 if (alreadyStartedOrder && [[dictOrder objectForKey:@"taskStatus"] caseInsensitiveCompare:@"P"] == NSOrderedSame)
                 {
-                    [appDel showAlertWithMessage:@"Please complete the order that you started." andTitle:@"" andBtnTitle:@"OK"];
+                    [AppDelegate showAlertWithMessage:@"Please complete the order that you started." andTitle:@"" andBtnTitle:@"OK"];
                     
                     //return;
                 }
@@ -482,7 +496,7 @@
                 {
                     if ([[dictOrder objectForKey:@"recivedBags"] intValue] == 0)
                     {
-                        [appDel showAlertWithMessage:@"Please receive atleast one bag to deliver this order" andTitle:@"" andBtnTitle:@"OK"];
+                        [AppDelegate showAlertWithMessage:@"Please receive atleast one bag to deliver this order" andTitle:@"" andBtnTitle:@"OK"];
                         
                         return;
                     }
@@ -544,7 +558,7 @@
                 
                 if (alreadyStartedOrder && [[dictOrder objectForKey:@"taskStatus"] caseInsensitiveCompare:@"P"] == NSOrderedSame)
                 {
-                    [appDel showAlertWithMessage:@"Please complete the order that you started." andTitle:@"" andBtnTitle:@"OK"];
+                    [AppDelegate showAlertWithMessage:@"Please complete the order that you started." andTitle:@"" andBtnTitle:@"OK"];
                     
                     //return;
                 }
@@ -642,7 +656,7 @@
                 {
                     if ([[dictOrder objectForKey:@"taskStatus"] isEqualToString:@"P"])
                     {
-                        [appDel showAlertWithMessage:@"Please complete the previous timeslot orders." andTitle:@"" andBtnTitle:@"OK"];
+                        [AppDelegate showAlertWithMessage:@"Please complete the previous timeslot orders." andTitle:@"" andBtnTitle:@"OK"];
                     }
                 }
                 
@@ -1228,9 +1242,9 @@
                 
                 lblTotalBags.text = @"Bags received :";
                 
-                lblTotalBags.frame = CGRectMake(xpos, yPos, 70*MULTIPLYHEIGHT, 24*MULTIPLYHEIGHT);
+                lblTotalBags.frame = CGRectMake(xpos, yPos, 75*MULTIPLYHEIGHT, 24*MULTIPLYHEIGHT);
                 
-                lblReceivedBags.text = [NSString stringWithFormat:@"%d/%ld", [[dictOrder objectForKey:@"recivedBags"] intValue], [[dictOrder objectForKey:@"Bags"] count]];
+                lblReceivedBags.text = [NSString stringWithFormat:@"%d/%u", [[dictOrder objectForKey:@"recivedBags"] intValue], [[dictOrder objectForKey:@"Bags"] count]];
                 lblReceivedBags.frame = CGRectMake(xpos+70*MULTIPLYHEIGHT, yPos, 24*MULTIPLYHEIGHT, 24*MULTIPLYHEIGHT);
                 
                 lblReceivedBags.font = [UIFont fontWithName:APPFONT_BOLD size:appDel.FONT_SIZE_CUSTOM-1];
@@ -1644,7 +1658,7 @@
         
     } else {
         
-        [appDel showAlertWithMessage:@"Your device doesn't support this feature." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Your device doesn't support this feature." andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -1731,7 +1745,7 @@
 {
     if (![arrSelectedTimeslots count])
     {
-        [appDel showAlertWithMessage:@"Please select atleast one timeslot." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please select atleast one timeslot." andTitle:@"" andBtnTitle:@"OK"];
         return;
     }
     

@@ -22,6 +22,8 @@
     
     NSArray *userAddresses;
     NSMutableArray *userSavedCards;
+    
+    UIImageView *bgImgView;
 }
 @end
 
@@ -46,7 +48,18 @@
     animatedImageView.image = [UIImage imageNamed:@"app_bg_dark"];
     [self.view addSubview: animatedImageView];
     
-    UIImageView *bgImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64.0, screen_width, 41)];
+    if ([[UIScreen mainScreen] nativeBounds].size.height == 2436)
+    {
+        bgImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 85.0, screen_width, 41)];
+        
+        usersTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 85.0+41.0+15.0, screen_width, screen_height-85.0-41.0-20.0) style:UITableViewStylePlain];
+    }
+    else {
+        bgImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64.0, screen_width, 41)];
+        
+        usersTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64.0+41.0+15.0, screen_width, screen_height-64.0-41.0-20.0) style:UITableViewStylePlain];
+    }
+    
     bgImgView.userInteractionEnabled = YES;
     UIImage *bgImg = [UIImage imageNamed:@"login_transparent_bg"];
     bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
@@ -74,7 +87,6 @@
 
     [self.view addSubview:bgImgView];
     
-    usersTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64.0+41.0+15.0, screen_width, screen_height-64.0-41.0-20.0) style:UITableViewStylePlain];
     usersTableView.delegate = self;
     usersTableView.dataSource = self;
     usersTableView.backgroundView = nil;
@@ -125,7 +137,7 @@
     
     if ([phoneNumberSearchBar.text length] < 5)
     {
-        [appDel showAlertWithMessage:@"Search field should not be empty" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Search field should not be empty" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }

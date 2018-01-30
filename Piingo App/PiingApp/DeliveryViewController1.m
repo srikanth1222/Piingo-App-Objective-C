@@ -455,7 +455,7 @@
 {
     if (self.isDeliveryOrder)
     {
-        [appDel showAlertWithMessage:@"Promocode is not editable by Piingo" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Promocode is not editable by Piingo" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -642,7 +642,7 @@
     
     if (![tfPC.text length])
     {
-        [appDel showAlertWithMessage:@"Please enter promo code" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please enter promo code" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -890,12 +890,12 @@
     else {
         if (![self.orderInfo objectForKey:ORDER_DELIVERY_DATE]) {
             
-            [appDel showAlertWithMessage:@"Please select Delivery Date" andTitle:@"Error" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please select Delivery Date" andTitle:@"Error" andBtnTitle:@"OK"];
             
         }
         else if (![self.orderInfo objectForKey:ORDER_DELIVERY_SLOT]) {
             
-            [appDel showAlertWithMessage:@"Please select Delivery Timeslot" andTitle:@"Error" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please select Delivery Timeslot" andTitle:@"Error" andBtnTitle:@"OK"];
             
         }
     }
@@ -933,7 +933,7 @@
     }
     else
     {
-        [appDel showAlertWithMessage:@"Oops! Something tore. We are working on it right now. Please check back." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Oops! Something tore. We are working on it right now. Please check back." andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -949,7 +949,7 @@
     {
         if (self.isDeliveryOrder)
         {
-            [appDel showAlertWithMessage:@"Delivery address is not editable by Piingo" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Delivery address is not editable by Piingo" andTitle:@"" andBtnTitle:@"OK"];
             
             return;
         }
@@ -958,7 +958,7 @@
         {
             if ([self.dictAllowFields count] && [[self.dictAllowFields objectForKey:@"deliveryAddress"] intValue] == 0)
             {
-                [appDel showAlertWithMessage:@"You can't update delivery address now." andTitle:@"" andBtnTitle:@"OK"];
+                [AppDelegate showAlertWithMessage:@"You can't update delivery address now." andTitle:@"" andBtnTitle:@"OK"];
                 return;
             }
         }
@@ -1254,7 +1254,7 @@
 {
     if (![self.deliveryDates count])
     {
-        [appDel showAlertWithMessage:@"No delivery dates available for selected pickup date." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"No delivery dates available for selected pickup date." andTitle:@"" andBtnTitle:@"OK"];
         return;
     }
     
@@ -1288,7 +1288,7 @@
     
     if (![self.deliveryDates count])
     {
-        [appDel showAlertWithMessage:@"Delivery dates are not available at this time." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Delivery dates are not available at this time." andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -1315,7 +1315,7 @@
 {
     if (self.isDeliveryOrder)
     {
-        [appDel showAlertWithMessage:@"Delivery date is not editable by Piingo" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Delivery date is not editable by Piingo" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -1324,7 +1324,7 @@
     {
         if ([self.dictAllowFields count] && [[self.dictAllowFields objectForKey:@"deliveryDate"] intValue] == 0)
         {
-            [appDel showAlertWithMessage:@"You can't update delivery date now." andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"You can't update delivery date now." andTitle:@"" andBtnTitle:@"OK"];
             return;
         }
     }

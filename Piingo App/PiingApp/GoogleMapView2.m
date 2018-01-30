@@ -511,7 +511,7 @@ UILabel *titleLabel;
 
 - (void) locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
 {
-    [appDel showAlertWithMessage:@"Update google maps route - Heading" andTitle:@"" andBtnTitle:@"OK"];
+    [AppDelegate showAlertWithMessage:@"Update google maps route - Heading" andTitle:@"" andBtnTitle:@"OK"];
     
     //float heading = newHeading.magneticHeading; //in degrees
     //float headingDegrees = (heading*M_PI/180); //assuming needle points to top of iphone. convert to radians

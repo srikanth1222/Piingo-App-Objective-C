@@ -351,7 +351,7 @@
     } else {
         
         AppDelegate *appDel = (AppDelegate *) [[UIApplication sharedApplication]delegate];
-        [appDel showAlertWithMessage:@"Your device doesn't support this feature." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Your device doesn't support this feature." andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 

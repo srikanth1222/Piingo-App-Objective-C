@@ -212,7 +212,7 @@
     }
     else
     {
-        [appDel showAlertWithMessage:@"This bag is not in your assigned list of bags" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"This bag is not in your assigned list of bags" andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 

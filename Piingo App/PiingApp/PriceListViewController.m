@@ -751,7 +751,7 @@
                 }
                 else
                 {
-                    [appDel showAlertWithMessage:@"No data" andTitle:@"" andBtnTitle:@"OK"];
+                    [AppDelegate showAlertWithMessage:@"No data" andTitle:@"" andBtnTitle:@"OK"];
                 }
             }
         }

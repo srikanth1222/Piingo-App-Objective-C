@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import UserNotifications
 
+@available(iOS 10.0, *)
 @objc class GeofenceViewController: UIViewController, CLLocationManagerDelegate, UNUserNotificationCenterDelegate {
     
     let ENTERED_REGION_MESSAGE = "Welcome to Piing!"

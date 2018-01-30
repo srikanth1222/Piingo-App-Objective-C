@@ -98,7 +98,6 @@
 -(void) connectPiingobWhenLogin;
 
 -(void)displayErrorMessagErrorResponse:(NSDictionary *)response;
-- (void)showAlertWithMessage:(NSString *)msg andTitle:(NSString *)title andBtnTitle:(NSString *)btnTitle;
 
 -(void) refreshGoogleMapsDirections;
 + (UIImage *)imageWithColor:(UIColor *)color;

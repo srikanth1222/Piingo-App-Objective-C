@@ -115,7 +115,7 @@
             }
             else
             {
-                [appDel showAlertWithMessage:@"No orders found" andTitle:@"" andBtnTitle:@"OK"];
+                [AppDelegate showAlertWithMessage:@"No orders found" andTitle:@"" andBtnTitle:@"OK"];
             }
         }
         else

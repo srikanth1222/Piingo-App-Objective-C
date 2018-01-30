@@ -1046,7 +1046,14 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     self.navigationItem.titleView = segmentC;
     
     
-    mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, screen_width, screen_height-64)];
+    if ([[UIScreen mainScreen] nativeBounds].size.height == 2436)
+    {
+        mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 85, screen_width, screen_height-85)];
+    }
+    else {
+        mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, screen_width, screen_height-64)];
+    }
+    
     mainScrollView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:mainScrollView];
     
@@ -1887,7 +1894,14 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     // ADD ITEMS
     
     {
-        itemDetailsView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, screen_width, screen_height- 64)];
+        if ([[UIScreen mainScreen] nativeBounds].size.height == 2436)
+        {
+            itemDetailsView = [[UIView alloc] initWithFrame:CGRectMake(0, 85, screen_width, screen_height- 85)];
+        }
+        else {
+            itemDetailsView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, screen_width, screen_height- 64)];
+        }
+        
         itemDetailsView.backgroundColor = [UIColor colorWithRed:239.0/255.0 green:239.0/255.0 blue:239.0/255.0 alpha:1.0];
         
         whiteBG = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screen_width, 40)];
@@ -2481,7 +2495,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
             
             if([[responseObj objectForKey:@"s"] intValue] == 1)
             {
-                [appDel showAlertWithMessage:@"Special care saved." andTitle:@"" andBtnTitle:@"OK"];
+                [AppDelegate showAlertWithMessage:@"Special care saved." andTitle:@"" andBtnTitle:@"OK"];
                 
                 for (UIView *view in view_Custom.subviews)
                 {
@@ -2499,7 +2513,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     }
     else
     {
-        [appDel showAlertWithMessage:@"Please enter special care notes." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please enter special care notes." andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -2557,7 +2571,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     }
     else
     {
-        [appDel showAlertWithMessage:@"Please check that you are At The Door." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please check that you are At The Door." andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -2625,7 +2639,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
         
         if([[responseObj objectForKey:@"s"] intValue] == 1)
         {
-            [appDel showAlertWithMessage:@"Preferences saved." andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Preferences saved." andTitle:@"" andBtnTitle:@"OK"];
         }
         else {
             [appDel displayErrorMessagErrorResponse:responseObj];
@@ -2663,7 +2677,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 //        [self atTheDoorClicked];
 //    }
 //    
-//    [appDel showAlertWithMessage:@"You are At the Door of customer." andTitle:@"" andBtnTitle:@"OK"];
+//    [AppDelegate showAlertWithMessage:@"You are At the Door of customer." andTitle:@"" andBtnTitle:@"OK"];
 //}
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
@@ -3279,7 +3293,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 //        [[UIApplication sharedApplication] openURL:url];
 //    } else {
 //        
-//        [appDel showAlertWithMessage:@"no navigation" andTitle:@"" andBtnTitle:@"OK"];
+//        [AppDelegate showAlertWithMessage:@"no navigation" andTitle:@"" andBtnTitle:@"OK"];
 //        
 //        NSLog(@"Can't use comgooglemaps://");
 //    }
@@ -3483,7 +3497,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 {
     if (![[orderDetailDic objectForKey:@"customerPhone"] length])
     {
-        [appDel showAlertWithMessage:@"Customer does not have mobile number." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Customer does not have mobile number." andTitle:@"" andBtnTitle:@"OK"];
     }
     else
     {
@@ -3508,7 +3522,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
             
         } else {
             
-            [appDel showAlertWithMessage:@"Your device doesn't support this feature." andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Your device doesn't support this feature." andTitle:@"" andBtnTitle:@"OK"];
         }
     }
 }
@@ -3528,7 +3542,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     }
     else
     {
-        [appDel showAlertWithMessage:@"Please check that you are At The Door." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please check that you are At The Door." andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -5108,7 +5122,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 {
     if (ReasonId == 0)
     {
-        [appDel showAlertWithMessage:@"Please select reason" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please select reason" andTitle:@"" andBtnTitle:@"OK"];
     }
     else
     {
@@ -5299,7 +5313,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     }
     else
     {
-        [appDel showAlertWithMessage:@"piingob finishorder socket not called." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"piingob finishorder socket not called." andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -5317,7 +5331,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     }
     else
     {
-        [appDel showAlertWithMessage:@"Please check that you are at the Gate of Customer's Home?" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please check that you are at the Gate of Customer's Home?" andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -5361,7 +5375,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
                                                  
                                                  if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1){
                                                      
-                                                     [appDel showAlertWithMessage:@"Pickup order is confirmed. but Piingo should enter bag details later." andTitle:@"" andBtnTitle:@"OK"];
+                                                     [AppDelegate showAlertWithMessage:@"Pickup order is confirmed. but Piingo should enter bag details later." andTitle:@"" andBtnTitle:@"OK"];
                                                      
                                                      [self gotoBack];
                                                  }
@@ -5377,7 +5391,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 //                                                 {
 //                                                     NSLog(@"piingob deferred : %@", data);
 //
-//                                                     [appDel showAlertWithMessage:@"Pickup order is confirmed. but Piingo should enter bag details later." andTitle:@"" andBtnTitle:@"OK"];
+//                                                     [AppDelegate showAlertWithMessage:@"Pickup order is confirmed. but Piingo should enter bag details later." andTitle:@"" andBtnTitle:@"OK"];
 //
 //                                                     [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
 //
@@ -5387,7 +5401,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 //                                                 {
 //                                                     [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
 //
-//                                                     [appDel showAlertWithMessage:@"Error occured while confirming the pickup order." andTitle:@"" andBtnTitle:@"OK"];
+//                                                     [AppDelegate showAlertWithMessage:@"Error occured while confirming the pickup order." andTitle:@"" andBtnTitle:@"OK"];
 //                                                 }
 //                                             });
                                          }
@@ -5417,7 +5431,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     }
     else
     {
-        [appDel showAlertWithMessage:@"Please check that you are at the Gate of Customer's Home?" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please check that you are at the Gate of Customer's Home?" andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -5523,7 +5537,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
         }
         else
         {
-            [appDel showAlertWithMessage:@"Please Enter all wash types that customer has entered during order booking and Confirm if any pending bags" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please Enter all wash types that customer has entered during order booking and Confirm if any pending bags" andTitle:@"" andBtnTitle:@"OK"];
         }
     }
     else
@@ -5591,7 +5605,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
         }
         else
         {
-            [appDel showAlertWithMessage:@"Please check that you are at the Gate of Customer's Home?" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please check that you are at the Gate of Customer's Home?" andTitle:@"" andBtnTitle:@"OK"];
         }
     }
    
@@ -5838,7 +5852,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 //    
 //    if (![nameTF.text length])
 //    {
-//        [appDel showAlertWithMessage:@"Please enter name" andTitle:@"" andBtnTitle:@"OK"];
+//        [AppDelegate showAlertWithMessage:@"Please enter name" andTitle:@"" andBtnTitle:@"OK"];
 //        
 //        return;
 //    }
@@ -5847,7 +5861,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     
     if (!sigImage)
     {
-        [appDel showAlertWithMessage:@"Please sign in signature box" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please sign in signature box" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -5856,7 +5870,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     
     if (![stringSignature length])
     {
-        [appDel showAlertWithMessage:@"Invalid Signature type" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Invalid Signature type" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -5939,7 +5953,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     
     if (foundBagNo)
     {
-        //[appDel showAlertWithMessage:@"This bag is related to this order" andTitle:@"Success" andBtnTitle:@"OK"];
+        //[AppDelegate showAlertWithMessage:@"This bag is related to this order" andTitle:@"Success" andBtnTitle:@"OK"];
         
         UIAlertController * alert = [UIAlertController
                                      alertControllerWithTitle:@""
@@ -5996,7 +6010,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     }
     else
     {
-        [appDel showAlertWithMessage:@"This bag is not related to this order!!" andTitle:@"Error" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"This bag is not related to this order!!" andTitle:@"Error" andBtnTitle:@"OK"];
     }
 }
 
@@ -6317,7 +6331,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     }
     else
     {
-        [appDel showAlertWithMessage:@"Please enter the reason for no payment." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please enter the reason for no payment." andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -6916,7 +6930,7 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
     
     else if ([self.strTaskStatus caseInsensitiveCompare:@"D"] == NSOrderedSame)
     {
-        return [arrayPriceList count];
+        return [arrayCustomizedData count];
     }
     
     else if ([self.strDirection caseInsensitiveCompare:@"Delivery"] == NSOrderedSame && [self.strTaskStatus caseInsensitiveCompare:@"D"] != NSOrderedSame)

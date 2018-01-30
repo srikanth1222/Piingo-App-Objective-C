@@ -398,7 +398,7 @@
     
     if (!appDel.isPartialDelivery && !appDel.isRewash)
     {
-        [appDel showAlertWithMessage:@"Please select options, in that select partial or rewash." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please select options, in that select partial or rewash." andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }

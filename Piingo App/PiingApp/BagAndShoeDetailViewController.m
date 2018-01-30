@@ -527,7 +527,7 @@
     
     if (!dictItem)
     {
-        [appDel showAlertWithMessage:@"Please select the material type first" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please select the material type first" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -543,7 +543,7 @@
 {
     if ([self.strServiceType isEqualToString:SERVICETYPE_SHOE_POLISH])
     {
-        [appDel showAlertWithMessage:@"Addons not applicable for Shoe polishing" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Addons not applicable for Shoe polishing" andTitle:@"" andBtnTitle:@"OK"];
         return;
     }
     
@@ -565,7 +565,7 @@
     
     if (!dictItem)
     {
-        [appDel showAlertWithMessage:@"Please select the material type first" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please select the material type first" andTitle:@"" andBtnTitle:@"OK"];
         
         return;
     }
@@ -612,7 +612,7 @@
             
             if (![dictItem objectForKey:@"n"] || ![dictItem objectForKey:@"ic"] || ![dictItem objectForKey:@"brand"] || ![dictItem objectForKey:@"colorCode"])
             {
-                [appDel showAlertWithMessage:@"Please enter all the details" andTitle:@"" andBtnTitle:@"OK"];
+                [AppDelegate showAlertWithMessage:@"Please enter all the details" andTitle:@"" andBtnTitle:@"OK"];
                 
                 return;
             }
@@ -629,7 +629,7 @@
     }
     else
     {
-        [appDel showAlertWithMessage:@"Please enter all the details" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please enter all the details" andTitle:@"" andBtnTitle:@"OK"];
         return;
     }
 }
@@ -670,7 +670,7 @@
         
         if (aboveTf && ![aboveTf.text length])
         {
-            [appDel showAlertWithMessage:@"Please select the service type first" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please select the service type first" andTitle:@"" andBtnTitle:@"OK"];
             
             return NO;
         }
@@ -696,7 +696,7 @@
         }
         else
         {
-            [appDel showAlertWithMessage:@"Please select the material type first" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please select the material type first" andTitle:@"" andBtnTitle:@"OK"];
         }
         
         return NO;
@@ -707,7 +707,7 @@
         
         if (![aboveTf.text length])
         {
-            [appDel showAlertWithMessage:@"Please select the material type first" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please select the material type first" andTitle:@"" andBtnTitle:@"OK"];
             
             return NO;
         }
@@ -807,7 +807,7 @@
     
     if (!dictItem)
     {
-        [appDel showAlertWithMessage:@"Please select the material type first" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please select the material type first" andTitle:@"" andBtnTitle:@"OK"];
         [self.view endEditing:YES];
         
         return NO;

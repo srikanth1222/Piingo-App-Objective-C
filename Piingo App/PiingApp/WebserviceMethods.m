@@ -572,7 +572,7 @@
         //            //        else
         //            //        {
         //            //                            AppDelegate *appDel = [[PiingHandler sharedHandler] appDel];
-        //            //            [appDel showAlertWithMessage:[connectionError localizedDescription] andTitle:@"Error" andBtnTitle:@"OK"];
+        //            //            [AppDelegate showAlertWithMessage:[connectionError localizedDescription] andTitle:@"Error" andBtnTitle:@"OK"];
         //            //            [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
         //            //
         //            //            return;
@@ -591,7 +591,7 @@
         
         //apiResponse(nil, nil, nil);
         
-        [appDel showAlertWithMessage:@"The Internet connection appears to be offline." andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"The Internet connection appears to be offline." andTitle:@"" andBtnTitle:@"OK"];
     }
     
 }

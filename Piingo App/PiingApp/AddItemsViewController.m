@@ -518,7 +518,7 @@
     
     if ([arraySelectedWashType count])
     {
-        [appDel showAlertWithMessage:@"Please add items in to current bag" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please add items in to current bag" andTitle:@"" andBtnTitle:@"OK"];
         
         sender.selectedSegmentIndex = [[arraySelectedWashType objectAtIndex:0]intValue];
         return;
@@ -558,7 +558,7 @@
     {
         if (![wfTxtFeild.text length])
         {
-            [appDel showAlertWithMessage:@"Please Add items" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please Add items" andTitle:@"" andBtnTitle:@"OK"];
             
             return;
         }
@@ -569,7 +569,7 @@
         
         if (![arraySelectedWashType containsObject:[NSString stringWithFormat:@"%ld", (long)segment_WashType.selectedSegmentIndex]])
         {
-            [appDel showAlertWithMessage:@"Please Add items" andTitle:@"" andBtnTitle:@"OK"];
+            [AppDelegate showAlertWithMessage:@"Please Add items" andTitle:@"" andBtnTitle:@"OK"];
             
             return;
         }
@@ -932,7 +932,466 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
+
 /*
+ 
+ -(void) PlusMinusClicked:(UIButton *)sender
+ {
+ CGPoint position = [sender convertPoint:CGPointZero toView:tblCategory];
+ NSIndexPath *indexPath = [tblCategory indexPathForRowAtPoint:position];
+ 
+ UITableViewCell *cell = [tblCategory cellForRowAtIndexPath:indexPath];
+ 
+ UILabel *lblCount = (UILabel *) [cell.contentView viewWithTag:14];
+ 
+ if ([lblCount.text intValue] <= 0 && sender.tag == 13)
+ {
+ return;
+ }
+ 
+ NSDictionary *dictRow;
+ 
+ if ([strJobType isEqualToString:@"WF"] || [strJobType isEqualToString:@"CA"])
+ {
+ dictRow = (NSDictionary *) [arrayCategory objectAtIndex:indexPath.row];
+ }
+ else
+ {
+ dictRow = (NSDictionary *) [arrayRow objectAtIndex:indexPath.row];
+ }
+ 
+ NSString *strCategoryName = [segmentCategory.sectionTitles objectAtIndex:selectedCategoryIndex];
+ 
+ if ([strCategoryName caseInsensitiveCompare:@"HouseHold"] == NSOrderedSame || [strCategoryName caseInsensitiveCompare:@"HouseHold Items"] == NSOrderedSame)
+ {
+ for (int i = 0; i < [dictViewBill count]; i++)
+ {
+ NSMutableArray *arrayItemDetails = [[dictViewBill allValues]objectAtIndex:i];
+ 
+ for (int j = 0; j < [arrayItemDetails count]; j++)
+ {
+ NSDictionary *dictItems = [arrayItemDetails objectAtIndex:j];
+ 
+ if (([[dictItems objectForKey:@"categoryName"] caseInsensitiveCompare:@"HouseHold"] == NSOrderedSame || [[dictItems objectForKey:@"categoryName"] caseInsensitiveCompare:@"HouseHold Items"] == NSOrderedSame) && [[dictItems objectForKey:@"jd"] isEqualToString:strJobType])
+ {
+ 
+ UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:@"" message:@"Piingo can't add Household items into this bag. Please add Household items into separate bag." preferredStyle:UIAlertControllerStyleAlert];
+ 
+ UIAlertAction *addBag = [UIAlertAction actionWithTitle:@"Add Bag" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+ 
+ [self checkEnteredGarments];
+ 
+ if ([parentDel respondsToSelector:@selector(addItemDetails:)])
+ {
+ [parentDel addItemDetails:dictViewBill];
+ }
+ 
+ [dictViewBill removeAllObjects];
+ [dictItemCount removeAllObjects];
+ [dictTotalPrice removeAllObjects];
+ [dictCountForType removeAllObjects];
+ 
+ [tblCategory reloadData];
+ 
+ }];
+ 
+ UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+ 
+ }];
+ 
+ [alertCon addAction:addBag];
+ [alertCon addAction:cancel];
+ 
+ [self presentViewController:alertCon animated:true completion:nil];
+ 
+ return;
+ }
+ }
+ }
+ }
+ else
+ {
+ for (int i = 0; i < [dictViewBill count]; i++)
+ {
+ NSMutableArray *arrayItemDetails = [[dictViewBill allValues]objectAtIndex:i];
+ 
+ for (int j = 0; j < [arrayItemDetails count]; j++)
+ {
+ NSDictionary *dictItems = [arrayItemDetails objectAtIndex:j];
+ 
+ if (([[dictItems objectForKey:@"categoryName"] caseInsensitiveCompare:@"HouseHold"] == NSOrderedSame || [[dictItems objectForKey:@"categoryName"] caseInsensitiveCompare:@"HouseHold Items"] == NSOrderedSame) && [[dictItems objectForKey:@"jd"] isEqualToString:strJobType])
+ {
+ [AppDelegate showAlertWithMessage:@"Please add Household items into separate bag." andTitle:@"" andBtnTitle:@"OK"];
+ return;
+ }
+ }
+ }
+ }
+ 
+ 
+ NSString *strTag = [NSString stringWithFormat:@"%@-%ld-%ld-%@", strJobType, selectedCategoryIndex, (long)indexPath.row, strOrderType];
+ 
+ if (sender.tag == 13)
+ {
+ if ([dictItemCount objectForKey:strTag])
+ {
+ NSMutableDictionary *dictCountWeight = [dictItemCount objectForKey:strTag];
+ 
+ NSString *strItemCount = [dictCountWeight objectForKey:@"count"];
+ 
+ NSString *strSegmentIndex = [NSString stringWithFormat:@"%ld", (long)selectedJobTypeIndex];
+ 
+ NSString *strTotalPrice = [dictTotalPrice objectForKey:strSegmentIndex];
+ 
+ if ([strItemCount intValue] != 0)
+ {
+ strItemCount = [NSString stringWithFormat:@"%d", [strItemCount intValue]-1];
+ 
+ if ([strItemCount isEqualToString:@"0"])
+ {
+ [dictCountWeight removeObjectForKey:@"count"];
+ }
+ else
+ {
+ [dictCountWeight setObject:strItemCount forKey:@"count"];
+ }
+ 
+ double pricevalue = [strTotalPrice doubleValue] - [[dictRow objectForKey:@"ip"]doubleValue];
+ [dictTotalPrice setObject:[NSString stringWithFormat:@"%.2f", pricevalue] forKey:strSegmentIndex];
+ 
+ int TotalCountForType = [[dictCountForType objectForKey:strSegmentIndex]intValue];
+ 
+ TotalCountForType -= 1;
+ 
+ [dictCountForType setObject:[NSString stringWithFormat:@"%d", TotalCountForType] forKey:strSegmentIndex];
+ 
+ 
+ 
+ 
+ 
+ 
+ BOOL isTagFound = NO;
+ 
+ for (int i=0; i<[dictViewBill count]; i++)
+ {
+ NSMutableArray *arrayItemDetails = [[dictViewBill allValues]objectAtIndex:i];
+ 
+ for (int j=0; j<[arrayItemDetails count]; j++)
+ {
+ NSMutableDictionary *dictItemDetails = [arrayItemDetails objectAtIndex:j];
+ 
+ NSString *strLocalTag = [dictItemDetails objectForKey:strTag];
+ 
+ if ([strLocalTag isEqualToString:strTag])
+ {
+ isTagFound = YES;
+ 
+ [dictItemDetails setObject:strItemCount forKey:@"quantity"];
+ 
+ if ([strItemCount isEqualToString:@"0"])
+ {
+ if ([dictItemDetails objectForKey:@"weight"])
+ {
+ 
+ }
+ else
+ {
+ [arrayItemDetails removeObject:dictItemDetails];
+ }
+ 
+ [dictItemDetails removeObjectForKey:@"quantity"];
+ 
+ if (![arrayItemDetails count])
+ {
+ [dictViewBill removeObjectForKey:strJobName];
+ }
+ }
+ 
+ break;
+ }
+ }
+ 
+ }
+ 
+ if (!isTagFound)
+ {
+ NSMutableArray *arrayItemDetails = [dictViewBill objectForKey:strJobName];
+ 
+ if (!arrayItemDetails)
+ {
+ arrayItemDetails = [[NSMutableArray alloc]init];
+ }
+ 
+ NSMutableDictionary *dictItemDetails = [[NSMutableDictionary alloc]init];
+ [dictItemDetails setObject:@"0123456789" forKey:@"orno"];
+ [dictItemDetails setObject:strJobName forKey:@"jn"];
+ 
+ NSMutableDictionary *dictCountWeight = [dictItemCount objectForKey:strTag];
+ 
+ [dictItemDetails setObject:[dictCountWeight objectForKey:@"count"] forKey:@"quantity"];
+ 
+ [dictItemDetails setObject:[dictRow objectForKey:@"ip"] forKey:@"ip"];
+ [dictItemDetails setObject:[dictRow objectForKey:@"ic"] forKey:@"ic"];
+ 
+ [dictItemDetails setObject:[dictRow objectForKey:@"uomid"] forKey:@"UOMId"];
+ 
+ [dictItemDetails setObject:strJobType forKey:@"jd"];
+ [dictItemDetails setObject:[dictRow objectForKey:@"n"] forKey:@"n"];
+ [dictItemDetails setObject:strTag forKey:strTag];
+ 
+ //Newly added
+ [dictItemDetails setObject:strCategoryName forKey:@"categoryName"];
+ 
+ [arrayItemDetails addObject:dictItemDetails];
+ 
+ [dictViewBill setObject:arrayItemDetails forKey:strJobName];
+ }
+ }
+ else
+ {
+ [dictCountWeight removeObjectForKey:@"count"];
+ }
+ }
+ }
+ else if (sender.tag == 15)
+ {
+ if ([dictItemCount objectForKey:strTag])
+ {
+ NSMutableDictionary *dictCountWeight = [dictItemCount objectForKey:strTag];
+ 
+ NSString *strItemCount = [dictCountWeight objectForKey:@"count"];
+ 
+ NSString *strSegmentIndex = [NSString stringWithFormat:@"%ld", (long)selectedJobTypeIndex];
+ 
+ NSString *strTotalPrice = [dictTotalPrice objectForKey:strSegmentIndex];
+ 
+ strItemCount = [NSString stringWithFormat:@"%d", [strItemCount intValue]+1];
+ [dictCountWeight setObject:strItemCount forKey:@"count"];
+ 
+ //[dictItemCount setObject:strItemCount forKey:strTag];
+ 
+ double pricevalue = [[dictRow objectForKey:@"ip"]doubleValue] + [strTotalPrice doubleValue];
+ 
+ [dictTotalPrice setObject:[NSString stringWithFormat:@"%.2f", pricevalue] forKey:strSegmentIndex];
+ 
+ int TotalCountForType = [[dictCountForType objectForKey:strSegmentIndex]intValue];
+ 
+ TotalCountForType += 1;
+ 
+ [dictCountForType setObject:[NSString stringWithFormat:@"%d", TotalCountForType] forKey:strSegmentIndex];
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ BOOL isTagFound = NO;
+ 
+ for (int i=0; i<[dictViewBill count]; i++)
+ {
+ NSMutableArray *arrayItemDetails = [[dictViewBill allValues]objectAtIndex:i];
+ 
+ for (int j=0; j<[arrayItemDetails count]; j++)
+ {
+ NSMutableDictionary *dictItemDetails = [arrayItemDetails objectAtIndex:j];
+ 
+ NSString *strLocalTag = [dictItemDetails objectForKey:strTag];
+ 
+ if ([strLocalTag isEqualToString:strTag])
+ {
+ isTagFound = YES;
+ [dictItemDetails setObject:strItemCount forKey:@"quantity"];
+ 
+ if ([strItemCount isEqualToString:@"0"])
+ {
+ if ([dictItemDetails objectForKey:@"weight"])
+ {
+ 
+ }
+ else
+ {
+ [arrayItemDetails removeObject:dictItemDetails];
+ }
+ 
+ [dictItemDetails removeObjectForKey:@"quantity"];
+ 
+ if (![arrayItemDetails count])
+ {
+ [dictViewBill removeObjectForKey:strJobName];
+ }
+ }
+ 
+ break;
+ }
+ }
+ }
+ 
+ if (!isTagFound)
+ {
+ NSMutableArray *arrayItemDetails = [dictViewBill objectForKey:strJobName];
+ 
+ if (!arrayItemDetails)
+ {
+ arrayItemDetails = [[NSMutableArray alloc]init];
+ }
+ 
+ NSMutableDictionary *dictItemDetails = [[NSMutableDictionary alloc]init];
+ [dictItemDetails setObject:@"0123456789" forKey:@"orno"];
+ [dictItemDetails setObject:strJobName forKey:@"jn"];
+ 
+ NSMutableDictionary *dictCountWeight = [dictItemCount objectForKey:strTag];
+ 
+ NSString *strItemCount = [dictCountWeight objectForKey:@"count"];
+ 
+ [dictItemDetails setObject:strItemCount forKey:@"quantity"];
+ 
+ [dictItemDetails setObject:[dictRow objectForKey:@"ip"] forKey:@"ip"];
+ [dictItemDetails setObject:[dictRow objectForKey:@"ic"] forKey:@"ic"];
+ [dictItemDetails setObject:[dictRow objectForKey:@"uomid"] forKey:@"UOMId"];
+ 
+ [dictItemDetails setObject:strJobType forKey:@"jd"];
+ [dictItemDetails setObject:[dictRow objectForKey:@"n"] forKey:@"n"];
+ [dictItemDetails setObject:strTag forKey:strTag];
+ 
+ //Newly added
+ [dictItemDetails setObject:strCategoryName forKey:@"categoryName"];
+ 
+ [arrayItemDetails addObject:dictItemDetails];
+ 
+ [dictViewBill setObject:arrayItemDetails forKey:strJobName];
+ }
+ }
+ else
+ {
+ NSMutableDictionary *dictCountWeight = [[NSMutableDictionary alloc]init];
+ 
+ NSString *strItemCount = [NSString stringWithFormat:@"%d", 1];
+ [dictCountWeight setObject:strItemCount forKey:@"count"];
+ 
+ [dictItemCount setObject:dictCountWeight forKey:strTag];
+ 
+ NSString *strSegmentIndex = [NSString stringWithFormat:@"%ld", (long)selectedJobTypeIndex];
+ 
+ NSString *strTotalPrice = [dictTotalPrice objectForKey:strSegmentIndex];
+ 
+ double pricevalue = [[dictRow objectForKey:@"ip"]doubleValue] + [strTotalPrice doubleValue];
+ [dictTotalPrice setObject:[NSString stringWithFormat:@"%.2f", pricevalue] forKey:strSegmentIndex];
+ 
+ int TotalCountForType = [[dictCountForType objectForKey:strSegmentIndex]intValue];
+ 
+ TotalCountForType += 1;
+ 
+ [dictCountForType setObject:[NSString stringWithFormat:@"%d", TotalCountForType] forKey:strSegmentIndex];
+ 
+ 
+ 
+ 
+ 
+ BOOL isTagFound = NO;
+ 
+ for (int i=0; i<[dictViewBill count]; i++)
+ {
+ NSMutableArray *arrayItemDetails = [[dictViewBill allValues]objectAtIndex:i];
+ 
+ for (int j=0; j<[arrayItemDetails count]; j++)
+ {
+ NSMutableDictionary *dictItemDetails = [arrayItemDetails objectAtIndex:j];
+ 
+ NSString *strLocalTag = [dictItemDetails objectForKey:strTag];
+ 
+ if ([strLocalTag isEqualToString:strTag])
+ {
+ isTagFound = YES;
+ [dictItemDetails setObject:strItemCount forKey:@"quantity"];
+ 
+ if ([strItemCount isEqualToString:@"0"])
+ {
+ if ([dictItemDetails objectForKey:@"weight"])
+ {
+ 
+ }
+ else
+ {
+ [arrayItemDetails removeObject:dictItemDetails];
+ }
+ 
+ [dictItemDetails removeObjectForKey:@"quantity"];
+ 
+ if (![arrayItemDetails count])
+ {
+ [dictViewBill removeObjectForKey:strJobName];
+ }
+ }
+ 
+ break;
+ }
+ }
+ 
+ }
+ 
+ if (!isTagFound)
+ {
+ NSMutableArray *arrayItemDetails = [dictViewBill objectForKey:strJobName];
+ 
+ if (!arrayItemDetails)
+ {
+ arrayItemDetails = [[NSMutableArray alloc]init];
+ }
+ 
+ NSMutableDictionary *dictItemDetails = [[NSMutableDictionary alloc]init];
+ [dictItemDetails setObject:@"0123456789" forKey:@"orno"];
+ [dictItemDetails setObject:strJobName forKey:@"jn"];
+ 
+ NSMutableDictionary *dictCountWeight = [dictItemCount objectForKey:strTag];
+ 
+ [dictItemDetails setObject:[dictCountWeight objectForKey:@"count"] forKey:@"quantity"];
+ 
+ [dictItemDetails setObject:[dictRow objectForKey:@"uomid"] forKey:@"UOMId"];
+ 
+ [dictItemDetails setObject:[dictRow objectForKey:@"ip"] forKey:@"ip"];
+ [dictItemDetails setObject:[dictRow objectForKey:@"ic"] forKey:@"ic"];
+ [dictItemDetails setObject:strJobType forKey:@"jd"];
+ [dictItemDetails setObject:[dictRow objectForKey:@"n"] forKey:@"n"];
+ [dictItemDetails setObject:strTag forKey:strTag];
+ 
+ //Newly added
+ [dictItemDetails setObject:strCategoryName forKey:@"categoryName"];
+ 
+ [arrayItemDetails addObject:dictItemDetails];
+ 
+ [dictViewBill setObject:arrayItemDetails forKey:strJobName];
+ }
+ }
+ }
+ 
+ //NSString *strSegmentIndex = [NSString stringWithFormat:@"%ld", (long)selectedJobTypeIndex];
+ 
+ //[appDel.dictEachSegmentCount setObject:[dictCountForType objectForKey:strSegmentIndex] forKey:strSegmentIndex];
+ 
+ 
+ if ([dictTotalPrice count])
+ {
+ float totalPrice = 0;
+ 
+ NSArray *array = [dictTotalPrice allKeys];
+ 
+ for (int i=0; i<[dictTotalPrice count]; i++)
+ {
+ totalPrice += [[dictTotalPrice objectForKey:[array objectAtIndex:i]] floatValue];
+ }
+ }
+ 
+ [tblCategory reloadData];
+ }
+ 
+ 
+ 
+ 
+ 
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

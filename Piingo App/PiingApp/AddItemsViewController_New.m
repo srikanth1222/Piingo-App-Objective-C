@@ -59,6 +59,8 @@
     
     NSInteger bagsCount;
     NSInteger shoeCount;
+    
+    BOOL isAlreadyAddedItems;
 }
 
 @end
@@ -280,17 +282,40 @@
 
 -(void) showAlert
 {
-    [appDel showAlertWithMessage:@"There is no service type, please check" andTitle:@"" andBtnTitle:@"OK"];
+    [AppDelegate showAlertWithMessage:@"There is no service type, please check" andTitle:@"" andBtnTitle:@"OK"];
 }
 
 
 -(void) addBtnClicked
 {
-    if (![dictViewBill count])
+    if (isAlreadyAddedItems && ![dictViewBill count])
     {
-        [appDel showAlertWithMessage:@"Please add items" andTitle:@"" andBtnTitle:@"OK"];
+        [self dismissViewControllerAnimated:YES completion:nil];
         return;
     }
+    
+    if (![dictViewBill count])
+    {
+        [AppDelegate showAlertWithMessage:@"Please add items" andTitle:@"" andBtnTitle:@"OK"];
+        return;
+    }
+    
+    [self checkEnteredGarments];
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    
+    [self.view endEditing:YES];
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+        if ([parentDel respondsToSelector:@selector(addItemDetails:)])
+        {
+            [parentDel addItemDetails:dictViewBill];
+        }
+    }];
+}
+
+-(void) checkEnteredGarments {
     
     for (int i = 0; i < [dictViewBill count]; i++)
     {
@@ -306,7 +331,7 @@
                 {
                     if (![dict objectForKey:@"quantity"])
                     {
-                        [appDel showAlertWithMessage:@"Please enter quantity and weight of items." andTitle:@"" andBtnTitle:@"OK"];
+                        [AppDelegate showAlertWithMessage:@"Please enter quantity and weight of items." andTitle:@"" andBtnTitle:@"OK"];
                         
                         return;
                     }
@@ -316,7 +341,7 @@
                 {
                     if (![dict objectForKey:@"weight"])
                     {
-                        [appDel showAlertWithMessage:@"Please enter quantity and weight of items." andTitle:@"" andBtnTitle:@"OK"];
+                        [AppDelegate showAlertWithMessage:@"Please enter quantity and weight of items." andTitle:@"" andBtnTitle:@"OK"];
                         
                         return;
                     }
@@ -328,18 +353,6 @@
             
         }
     }
-    
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
-    
-    [self.view endEditing:YES];
-    
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-        if ([parentDel respondsToSelector:@selector(addItemDetails:)])
-        {
-            [parentDel addItemDetails:dictViewBill];
-        }
-    }];
 }
 
 -(void) segmentedMainControlChangedValue:(HMSegmentedControl *)segment
@@ -568,7 +581,7 @@
     }
     else
     {
-        [appDel showAlertWithMessage:@"Please enter count" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please enter count" andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 
@@ -1075,6 +1088,83 @@
         dictRow = (NSDictionary *) [arrayRow objectAtIndex:indexPath.row];
     }
     
+    NSString *strCategoryName = [segmentCategory.sectionTitles objectAtIndex:selectedCategoryIndex];
+    
+    if (strCategoryName == nil)
+    {
+        strCategoryName = @"";
+    }
+    
+    if ([strCategoryName caseInsensitiveCompare:@"HouseHold"] == NSOrderedSame || [strCategoryName caseInsensitiveCompare:@"HouseHold Items"] == NSOrderedSame)
+    {
+        for (int i = 0; i < [dictViewBill count]; i++)
+        {
+            NSMutableArray *arrayItemDetails = [[dictViewBill allValues]objectAtIndex:i];
+            
+            for (int j = 0; j < [arrayItemDetails count]; j++)
+            {
+                NSDictionary *dictItems = [arrayItemDetails objectAtIndex:j];
+                
+                if (![[dictItems objectForKey:@"categoryName"] isEqualToString:strCategoryName])
+                {
+                    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:@"" message:@"Piingo can't add Household items into this bag. Please add Household items into separate bag." preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction *addBag = [UIAlertAction actionWithTitle:@"Add Bag" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        
+                        [self checkEnteredGarments];
+                        
+                        if ([parentDel respondsToSelector:@selector(addItemDetails:)])
+                        {
+                            [parentDel addItemDetails:dictViewBill];
+                        }
+                        
+                        isAlreadyAddedItems = YES;
+                        
+                        [dictViewBill removeAllObjects];
+                        [dictItemCount removeAllObjects];
+                        [dictTotalPrice removeAllObjects];
+                        [dictCountForType removeAllObjects];
+                        
+                        [tblCategory reloadData];
+                        
+                    }];
+                    
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        
+                    }];
+                    
+                    [alertCon addAction:addBag];
+                    [alertCon addAction:cancel];
+                    
+                    [self presentViewController:alertCon animated:true completion:nil];
+                    
+                    return;
+                }
+            }
+        }
+    }
+    else
+    {
+        for (int i = 0; i < [dictViewBill count]; i++)
+        {
+            NSMutableArray *arrayItemDetails = [[dictViewBill allValues]objectAtIndex:i];
+            
+            for (int j = 0; j < [arrayItemDetails count]; j++)
+            {
+                NSDictionary *dictItems = [arrayItemDetails objectAtIndex:j];
+                
+                if ([dictItems objectForKey:@"categoryName"] && ([[dictItems objectForKey:@"categoryName"] caseInsensitiveCompare:@"HouseHold"] == NSOrderedSame || [[dictItems objectForKey:@"categoryName"] caseInsensitiveCompare:@"HouseHold Items"] == NSOrderedSame) && [[dictItems objectForKey:@"jd"] isEqualToString:strJobType])
+                {
+                    
+                    [AppDelegate showAlertWithMessage:@"Please add Household items into separate bag." andTitle:@"" andBtnTitle:@"OK"];
+                    
+                    return;
+                }
+            }
+        }
+    }
+    
+    
     NSString *strTag = [NSString stringWithFormat:@"%@-%ld-%ld-%@", strJobType, selectedCategoryIndex, (long)indexPath.row, strOrderType];
     
     if (sender.tag == 13)
@@ -1184,6 +1274,9 @@
                     [dictItemDetails setObject:strJobType forKey:@"jd"];
                     [dictItemDetails setObject:[dictRow objectForKey:@"n"] forKey:@"n"];
                     [dictItemDetails setObject:strTag forKey:strTag];
+                    
+                    //Newly added
+                    [dictItemDetails setObject:strCategoryName forKey:@"categoryName"];
                     
                     [arrayItemDetails addObject:dictItemDetails];
                     
@@ -1298,6 +1391,9 @@
                 [dictItemDetails setObject:[dictRow objectForKey:@"n"] forKey:@"n"];
                 [dictItemDetails setObject:strTag forKey:strTag];
                 
+                //Newly added
+                [dictItemDetails setObject:strCategoryName forKey:@"categoryName"];
+                
                 [arrayItemDetails addObject:dictItemDetails];
                 
                 [dictViewBill setObject:arrayItemDetails forKey:strJobName];
@@ -1395,6 +1491,9 @@
                 [dictItemDetails setObject:strJobType forKey:@"jd"];
                 [dictItemDetails setObject:[dictRow objectForKey:@"n"] forKey:@"n"];
                 [dictItemDetails setObject:strTag forKey:strTag];
+                
+                //Newly added
+                [dictItemDetails setObject:strCategoryName forKey:@"categoryName"];
                 
                 [arrayItemDetails addObject:dictItemDetails];
                 

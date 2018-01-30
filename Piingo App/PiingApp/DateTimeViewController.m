@@ -182,7 +182,7 @@
     }
     else
     {
-        [appDel showAlertWithMessage:@"Please select your preferred time slot" andTitle:@"" andBtnTitle:@"OK"];
+        [AppDelegate showAlertWithMessage:@"Please select your preferred time slot" andTitle:@"" andBtnTitle:@"OK"];
     }
 }
 

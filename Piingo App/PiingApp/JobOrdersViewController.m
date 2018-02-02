@@ -516,27 +516,14 @@
                     
                     if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1)
                     {
+                        JobdetailViewController *jobDetailVC = [self getOrderDetailsWithOrderListDict:dictOrder detailDict:responseObj indexPath:indexPath];
                         
-                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                            
-                            JobdetailViewController *jobDetailVC = [[JobdetailViewController alloc] initWithNibName:@"JobdetailViewController" bundle:nil andIscurrentOrder:indexPath.section];
-                            jobDetailVC.orderDetailDic = [[NSMutableDictionary alloc]initWithDictionary:[[responseObj objectForKey:@"em"]objectAtIndex:0]];
-                            jobDetailVC.dictUpdatable = [[NSMutableDictionary alloc]initWithDictionary:[responseObj objectForKey:@"allowdUpdate"]];
-                            jobDetailVC.strTaskId = [dictOrder objectForKey:@"taskId"];
-                            jobDetailVC.strTaskStatus = [dictOrder objectForKey:@"taskStatus"];
-                            jobDetailVC.strUserName = [dictOrder objectForKey:@"userName"];
-                            jobDetailVC.strPaymentId = [dictOrder objectForKey:ORDER_CARD_ID];
-                            jobDetailVC.strDirection = [dictOrder objectForKey:@"direction"];
-                            jobDetailVC.userInteractionEnabled = YES;
-                            
-                            if (alreadyStartedOrder && [[dictOrder objectForKey:@"taskStatus"] caseInsensitiveCompare:@"P"] == NSOrderedSame)
-                            {
-                                jobDetailVC.userInteractionEnabled = NO;
-                            }
-                            
-                            [self.navigationController pushViewController:jobDetailVC animated:YES];
-                            
-                        }];
+                        if (alreadyStartedOrder && [[dictOrder objectForKey:@"taskStatus"] caseInsensitiveCompare:@"P"] == NSOrderedSame)
+                        {
+                            jobDetailVC.userInteractionEnabled = NO;
+                        }
+                        
+                        [self.navigationController pushViewController:jobDetailVC animated:YES];
                         
                     }
                     else {
@@ -576,26 +563,24 @@
                     if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1)
                     {
                         
-                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                            
-                            JobdetailViewController *jobDetailVC = [[JobdetailViewController alloc] initWithNibName:@"JobdetailViewController" bundle:nil andIscurrentOrder:indexPath.section];
-                            jobDetailVC.orderDetailDic = [[NSMutableDictionary alloc]initWithDictionary:[[responseObj objectForKey:@"em"]objectAtIndex:0]];
-                            jobDetailVC.dictUpdatable = [[NSMutableDictionary alloc]initWithDictionary:[responseObj objectForKey:@"allowdUpdate"]];
-                            jobDetailVC.strTaskId = [dictOrder objectForKey:@"taskId"];
-                            jobDetailVC.strTaskStatus = [dictOrder objectForKey:@"taskStatus"];
-                            jobDetailVC.strUserName = [dictOrder objectForKey:@"userName"];
-                            jobDetailVC.strPaymentId = [dictOrder objectForKey:ORDER_CARD_ID];
-                            jobDetailVC.strDirection = [dictOrder objectForKey:@"direction"];
-                            jobDetailVC.userInteractionEnabled = YES;
-                            
-                            if (alreadyStartedOrder && [[dictOrder objectForKey:@"taskStatus"] caseInsensitiveCompare:@"P"] == NSOrderedSame)
-                            {
-                                jobDetailVC.userInteractionEnabled = NO;
-                            }
-                            
-                            [self.navigationController pushViewController:jobDetailVC animated:YES];
-                            
-                        }];
+                        JobdetailViewController *jobDetailVC = [self getOrderDetailsWithOrderListDict:dictOrder detailDict:responseObj indexPath:indexPath];
+                        
+//                        JobdetailViewController *jobDetailVC = [[JobdetailViewController alloc] initWithNibName:@"JobdetailViewController" bundle:nil andIscurrentOrder:indexPath.section];
+//                        jobDetailVC.orderDetailDic = [[NSMutableDictionary alloc]initWithDictionary:[[responseObj objectForKey:@"em"]objectAtIndex:0]];
+//                        jobDetailVC.dictUpdatable = [[NSMutableDictionary alloc]initWithDictionary:[responseObj objectForKey:@"allowdUpdate"]];
+//                        jobDetailVC.strTaskId = [dictOrder objectForKey:@"taskId"];
+//                        jobDetailVC.strTaskStatus = [dictOrder objectForKey:@"taskStatus"];
+//                        jobDetailVC.strUserName = [dictOrder objectForKey:@"userName"];
+//                        jobDetailVC.strPaymentId = [dictOrder objectForKey:ORDER_CARD_ID];
+//                        jobDetailVC.strDirection = [dictOrder objectForKey:@"direction"];
+//                        jobDetailVC.userInteractionEnabled = YES;
+                        
+                        if (alreadyStartedOrder && [[dictOrder objectForKey:@"taskStatus"] caseInsensitiveCompare:@"P"] == NSOrderedSame)
+                        {
+                            jobDetailVC.userInteractionEnabled = NO;
+                        }
+                        
+                        [self.navigationController pushViewController:jobDetailVC animated:YES];
                         
                     }
                     else {
@@ -620,22 +605,20 @@
                     
                     if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1)
                     {
+                        JobdetailViewController *jobDetailVC = [self getOrderDetailsWithOrderListDict:dictOrder detailDict:responseObj indexPath:indexPath];
                         
-                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                            
-                            JobdetailViewController *jobDetailVC = [[JobdetailViewController alloc] initWithNibName:@"JobdetailViewController" bundle:nil andIscurrentOrder:indexPath.section];
-                            jobDetailVC.dictUpdatable = [[NSMutableDictionary alloc]initWithDictionary:[responseObj objectForKey:@"allowdUpdate"]];
-                            jobDetailVC.orderDetailDic = [[NSMutableDictionary alloc]initWithDictionary:[[responseObj objectForKey:@"em"]objectAtIndex:0]];
-                            jobDetailVC.strTaskId = [dictOrder objectForKey:@"taskId"];
-                            jobDetailVC.strTaskStatus = [dictOrder objectForKey:@"taskStatus"];
-                            jobDetailVC.strUserName = [dictOrder objectForKey:@"userName"];
-                            jobDetailVC.strPaymentId = [dictOrder objectForKey:ORDER_CARD_ID];
-                            jobDetailVC.strDirection = [dictOrder objectForKey:@"direction"];
-                            jobDetailVC.userInteractionEnabled = YES;
-                            
-                            [self.navigationController pushViewController:jobDetailVC animated:YES];
-                            
-                        }];
+//                        JobdetailViewController *jobDetailVC = [[JobdetailViewController alloc] initWithNibName:@"JobdetailViewController" bundle:nil andIscurrentOrder:indexPath.section];
+//                        jobDetailVC.dictUpdatable = [[NSMutableDictionary alloc]initWithDictionary:[responseObj objectForKey:@"allowdUpdate"]];
+//                        jobDetailVC.orderDetailDic = [[NSMutableDictionary alloc]initWithDictionary:[[responseObj objectForKey:@"em"]objectAtIndex:0]];
+//                        jobDetailVC.strTaskId = [dictOrder objectForKey:@"taskId"];
+//                        jobDetailVC.strTaskStatus = [dictOrder objectForKey:@"taskStatus"];
+//                        jobDetailVC.strUserName = [dictOrder objectForKey:@"userName"];
+//                        jobDetailVC.strPaymentId = [dictOrder objectForKey:ORDER_CARD_ID];
+//                        jobDetailVC.strDirection = [dictOrder objectForKey:@"direction"];
+//                        jobDetailVC.userInteractionEnabled = YES;
+                        
+                        [self.navigationController pushViewController:jobDetailVC animated:YES];
+                        
                     }
                     else {
                         
@@ -672,30 +655,27 @@
                     
                     if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1)
                     {
+                        JobdetailViewController *jobDetailVC = [self getOrderDetailsWithOrderListDict:dictOrder detailDict:responseObj indexPath:indexPath];
                         
-                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                            
-                            JobdetailViewController *jobDetailVC = [[JobdetailViewController alloc] initWithNibName:@"JobdetailViewController" bundle:nil andIscurrentOrder:indexPath.section];
-                            jobDetailVC.orderDetailDic = [[NSMutableDictionary alloc]initWithDictionary:[[responseObj objectForKey:@"em"]objectAtIndex:0]];
-                            jobDetailVC.dictUpdatable = [[NSMutableDictionary alloc]initWithDictionary:[responseObj objectForKey:@"allowdUpdate"]];
-                            jobDetailVC.strTaskId = [dictOrder objectForKey:@"taskId"];
-                            jobDetailVC.strTaskStatus = [dictOrder objectForKey:@"taskStatus"];
-                            jobDetailVC.strUserName = [dictOrder objectForKey:@"userName"];
-                            jobDetailVC.strPaymentId = [dictOrder objectForKey:ORDER_CARD_ID];
-                            jobDetailVC.strDirection = [dictOrder objectForKey:@"direction"];
-                            
-                            if ([[dictOrder objectForKey:@"taskStatus"] isEqualToString:@"P"])
-                            {
-                                jobDetailVC.userInteractionEnabled = NO;
-                            }
-                            else
-                            {
-                                jobDetailVC.userInteractionEnabled = YES;
-                            }
-                            
-                            [self.navigationController pushViewController:jobDetailVC animated:YES];
-                            
-                        }];
+//                        JobdetailViewController *jobDetailVC = [[JobdetailViewController alloc] initWithNibName:@"JobdetailViewController" bundle:nil andIscurrentOrder:indexPath.section];
+//                        jobDetailVC.orderDetailDic = [[NSMutableDictionary alloc]initWithDictionary:[[responseObj objectForKey:@"em"]objectAtIndex:0]];
+//                        jobDetailVC.dictUpdatable = [[NSMutableDictionary alloc]initWithDictionary:[responseObj objectForKey:@"allowdUpdate"]];
+//                        jobDetailVC.strTaskId = [dictOrder objectForKey:@"taskId"];
+//                        jobDetailVC.strTaskStatus = [dictOrder objectForKey:@"taskStatus"];
+//                        jobDetailVC.strUserName = [dictOrder objectForKey:@"userName"];
+//                        jobDetailVC.strPaymentId = [dictOrder objectForKey:ORDER_CARD_ID];
+//                        jobDetailVC.strDirection = [dictOrder objectForKey:@"direction"];
+                        
+                        if ([[dictOrder objectForKey:@"taskStatus"] isEqualToString:@"P"])
+                        {
+                            jobDetailVC.userInteractionEnabled = NO;
+                        }
+                        else
+                        {
+                            jobDetailVC.userInteractionEnabled = YES;
+                        }
+                        
+                        [self.navigationController pushViewController:jobDetailVC animated:YES];
                         
                     }
                     else {
@@ -1453,6 +1433,26 @@
     
     return strStatus;
 }
+
+
+-(JobdetailViewController *) getOrderDetailsWithOrderListDict:(NSDictionary *) dictOrder detailDict:responseObj indexPath:(NSIndexPath *) indexPath {
+    
+    JobdetailViewController *jobDetailVC = [[JobdetailViewController alloc] initWithNibName:@"JobdetailViewController" bundle:nil andIscurrentOrder:indexPath.section];
+    jobDetailVC.orderDetailDic = [[NSMutableDictionary alloc]initWithDictionary:[[responseObj objectForKey:@"em"] objectAtIndex:0]];
+    jobDetailVC.dictUpdatable = [[NSMutableDictionary alloc]initWithDictionary:[responseObj objectForKey:@"allowdUpdate"]];
+    jobDetailVC.strTaskId = [dictOrder objectForKey:@"taskId"];
+    jobDetailVC.strTaskStatus = [dictOrder objectForKey:@"taskStatus"];
+    jobDetailVC.strUserName = [dictOrder objectForKey:@"userName"];
+    jobDetailVC.strPaymentId = [dictOrder objectForKey:ORDER_CARD_ID];
+    jobDetailVC.strDirection = [dictOrder objectForKey:@"direction"];
+    jobDetailVC.userInteractionEnabled = YES;
+    jobDetailVC.customerLatitude = [dictOrder objectForKey:@"lat"];
+    jobDetailVC.customerLongitude = [dictOrder objectForKey:@"lon"];
+    
+    return jobDetailVC;
+}
+
+
 
 -(void) btnIClicked:(UIButton *) sender
 {

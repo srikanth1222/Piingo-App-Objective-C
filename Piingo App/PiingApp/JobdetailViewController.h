@@ -33,6 +33,10 @@ typedef NS_ENUM(NSUInteger, HSDNavigationState){
 
 @property (nonatomic, strong) NSMutableDictionary *orderDetailDic;
 
+@property (nonatomic, strong) NSString *customerLatitude;
+@property (nonatomic, strong) NSString *customerLongitude;
+
+
 @property (nonatomic, strong) NSString *strTaskStatus;
 @property (nonatomic, strong) NSString *strTaskId;
 @property (nonatomic, strong) NSString *strUserName;

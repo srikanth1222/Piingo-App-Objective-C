@@ -1331,10 +1331,13 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
         xAxis += customWidth;
     }
     
-    if ([[dictAddress objectForKey:@"zipcode"] length])
-    {
-        [self getLatAndLongOfUser:[dictAddress objectForKey:@"zipcode"]];
-    }
+    [orderDetailDic setObject:self.customerLatitude forKey:@"clat"];
+    [orderDetailDic setObject:self.customerLongitude forKey:@"clon"];
+    
+//    if ([[dictAddress objectForKey:@"zipcode"] length])
+//    {
+//        [self getLatAndLongOfUser:[dictAddress objectForKey:@"zipcode"]];
+//    }
     
     
     // Wash Details
@@ -3374,6 +3377,8 @@ static NSString * const kOpenInMapsSampleURLScheme = @"OpenInGoogleMapsSample://
 {
     if (![[OpenInGoogleMapsController sharedInstance] isGoogleMapsInstalled]) {
         NSLog(@"Google Maps not installed, but using our fallback strategy");
+        
+        return;
     }
     
     [self openDirectionsInGoogleMaps];

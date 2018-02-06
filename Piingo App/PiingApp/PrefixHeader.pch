@@ -68,15 +68,15 @@
 
 //Staging
 
-#define BASE_URL @"http://api.piing.in:14161/api/"
-#define BASE_TRACKING_URL @"http://api.piing.in:14161"
+//#define BASE_URL @"http://api.piing.in:14161/api/"
+//#define BASE_TRACKING_URL @"http://api.piing.in:14161"
 
 
 
 //PRODUCTION API
 
-//#define BASE_URL @"http://api.piing.com.sg:14161/api/"
-//#define BASE_TRACKING_URL @"http://api.piing.com.sg:14161"
+#define BASE_URL @"http://api.piing.com.sg:14161/api/"
+#define BASE_TRACKING_URL @"http://api.piing.com.sg:14161"
 
 
 
